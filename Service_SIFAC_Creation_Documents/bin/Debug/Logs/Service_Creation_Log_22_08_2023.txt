@@ -1,0 +1,6 @@
+22/08/2023 1:32:35 a. m. - CONEXION-SAPConnector:Error during SBO user authentication
+22/08/2023 1:32:46 a. m. - CONEXION :Error during SBO user authentication
+22/08/2023 1:32:55 a. m. - Error: Referencia a objeto no establecida como instancia de un objeto.
+22/08/2023 1:33:05 a. m. - CONEXION-SAPConnector:Error during SBO user authentication
+22/08/2023 1:33:11 a. m. - CONEXION :Error during SBO user authentication
+22/08/2023 1:48:43 a. m. - CONEXION EXITOSA

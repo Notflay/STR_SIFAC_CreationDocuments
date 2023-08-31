@@ -1,0 +1,25 @@
+31/08/2023 09:29:51 - CONEXION EXITOSA
+31/08/2023 09:32:32 - Factura con correlativo 3013 creado exitosamente!
+31/08/2023 09:33:14 - Factura con correlativo 3014 creado exitosamente!
+31/08/2023 09:33:21 - Nota de Credito con correlativo 2 creado exitosamente!
+31/08/2023 09:34:15 - Nota de debito con correlativo 2 creado exitosamente!
+31/08/2023 09:35:24 - CONEXION EXITOSA
+31/08/2023 09:35:56 - Error: Factura ya fue creado anteriormente FA2579. Enviarlo al proveedor
+31/08/2023 09:36:37 - Error: Factura ya fue creado anteriormente FCC582. Enviarlo al proveedor
+31/08/2023 09:36:51 - Error: Nota de Credito ya fue creado anteriormente FC2579. Enviarlo al proveedor
+31/08/2023 09:37:36 - Error: Nota de debito ya fue creado anteriormente FD2579. Enviarlo al proveedor
+31/08/2023 14:52:00 - CONEXION EXITOSA
+31/08/2023 14:53:09 - Factura con correlativo 3015 creado exitosamente!
+31/08/2023 14:53:25 - Error: Factura ya fue creado anteriormente FCC582. Enviarlo al proveedor
+31/08/2023 14:53:25 - Error: Nota de Credito ya fue creado anteriormente FC2579. Enviarlo al proveedor
+31/08/2023 14:53:26 - Error: Nota de debito ya fue creado anteriormente FD2579. Enviarlo al proveedor
+31/08/2023 16:53:56 - CONEXION EXITOSA
+31/08/2023 16:54:53 - Error: Factura ya fue creado anteriormente FA2580. Enviarlo al proveedor
+31/08/2023 16:55:38 - Error: Factura ya fue creado anteriormente FCC582. Enviarlo al proveedor
+31/08/2023 16:55:45 - Error: Nota de Credito ya fue creado anteriormente FC2579. Enviarlo al proveedor
+31/08/2023 16:56:28 - Error: Nota de debito ya fue creado anteriormente FD2579. Enviarlo al proveedor
+31/08/2023 17:14:19 - CONEXION EXITOSA
+31/08/2023 17:14:59 - Error: Factura ya fue creado anteriormente FA2580. Enviarlo al proveedor
+31/08/2023 17:15:47 - Error: Factura ya fue creado anteriormente FCC582. Enviarlo al proveedor
+31/08/2023 17:15:55 - Error: Nota de Credito ya fue creado anteriormente FC2579. Enviarlo al proveedor
+31/08/2023 17:16:36 - Error: Nota de debito ya fue creado anteriormente FD2579. Enviarlo al proveedor

@@ -1,0 +1,19 @@
+D:\Archivos\Code\C#_Workspace\Service_SIFAC_Creation_Documents\STR_SIFAC_UTIL\bin\Debug\STR_SIFAC_UTIL.dll
+D:\Archivos\Code\C#_Workspace\Service_SIFAC_Creation_Documents\STR_SIFAC_UTIL\bin\Debug\STR_SIFAC_UTIL.pdb
+D:\Archivos\Code\C#_Workspace\Service_SIFAC_Creation_Documents\STR_SIFAC_UTIL\obj\Debug\STR_SIFAC_UTIL.csproj.AssemblyReference.cache
+D:\Archivos\Code\C#_Workspace\Service_SIFAC_Creation_Documents\STR_SIFAC_UTIL\obj\Debug\STR_SIFAC_UTIL.csproj.CoreCompileInputs.cache
+D:\Archivos\Code\C#_Workspace\Service_SIFAC_Creation_Documents\STR_SIFAC_UTIL\obj\Debug\STR_SIFAC_UTIL.dll
+D:\Archivos\Code\C#_Workspace\Service_SIFAC_Creation_Documents\STR_SIFAC_UTIL\obj\Debug\STR_SIFAC_UTIL.pdb
+D:\Archivos\Code\C#_Workspace\Service_SIFAC_Creation_Documents\STR_SIFAC_UTIL\bin\Debug\System.ComponentModel.Annotations.dll
+D:\Archivos\Code\C#_Workspace\Service_SIFAC_Creation_Documents\STR_SIFAC_UTIL\obj\Debug\STR_SIFAC_UTIL.csproj.CopyComplete
+D:\Sebastian Poma\Sifac\Service_SIFAC_Creation_Documents\STR_SIFAC_UTIL\bin\Debug\STR_SIFAC_UTIL.dll
+D:\Sebastian Poma\Sifac\Service_SIFAC_Creation_Documents\STR_SIFAC_UTIL\bin\Debug\STR_SIFAC_UTIL.pdb
+D:\Sebastian Poma\Sifac\Service_SIFAC_Creation_Documents\STR_SIFAC_UTIL\bin\Debug\System.ComponentModel.Annotations.dll
+D:\Sebastian Poma\Sifac\Service_SIFAC_Creation_Documents\STR_SIFAC_UTIL\obj\Debug\STR_SIFAC_UTIL.csproj.AssemblyReference.cache
+D:\Sebastian Poma\Sifac\Service_SIFAC_Creation_Documents\STR_SIFAC_UTIL\obj\Debug\Interop.SAPbobsCOM.dll
+D:\Sebastian Poma\Sifac\Service_SIFAC_Creation_Documents\STR_SIFAC_UTIL\obj\Debug\Interop.SAPbouiCOM.dll
+D:\Sebastian Poma\Sifac\Service_SIFAC_Creation_Documents\STR_SIFAC_UTIL\obj\Debug\STR_SIFAC_UTIL.csproj.ResolveComReference.cache
+D:\Sebastian Poma\Sifac\Service_SIFAC_Creation_Documents\STR_SIFAC_UTIL\obj\Debug\STR_SIFAC_UTIL.csproj.CoreCompileInputs.cache
+D:\Sebastian Poma\Sifac\Service_SIFAC_Creation_Documents\STR_SIFAC_UTIL\obj\Debug\STR_SIFAC_UTIL.csproj.CopyComplete
+D:\Sebastian Poma\Sifac\Service_SIFAC_Creation_Documents\STR_SIFAC_UTIL\obj\Debug\STR_SIFAC_UTIL.dll
+D:\Sebastian Poma\Sifac\Service_SIFAC_Creation_Documents\STR_SIFAC_UTIL\obj\Debug\STR_SIFAC_UTIL.pdb

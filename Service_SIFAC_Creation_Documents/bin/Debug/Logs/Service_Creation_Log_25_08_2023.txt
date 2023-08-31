@@ -1,0 +1,14 @@
+25/08/2023 09:53:38 - Se han producido uno o varios errores.
+25/08/2023 09:53:51 - ERROR:Se han producido uno o varios errores.
+25/08/2023 09:56:23 - CONEXION EXITOSA
+25/08/2023 09:57:58 - Error: Factura ya fue creado anteriormente
+25/08/2023 09:58:14 - CONEXION-SAPConnector:You are already connected to a company
+25/08/2023 09:58:25 - CONEXION :You are already connected to a company
+25/08/2023 10:00:26 - CONEXION EXITOSA
+25/08/2023 10:13:40 - CONEXION EXITOSA
+25/08/2023 10:18:09 - CONEXION EXITOSA
+25/08/2023 10:22:23 - CONEXION EXITOSA
+25/08/2023 10:22:39 - Error: Factura ya fue creado anteriormente con 3013. Enviarlo su proveedor
+25/08/2023 10:22:47 - Error: Factura ya fue creado anteriormente con 3013. Enviarlo su proveedor
+25/08/2023 10:23:03 - Error: Nota de Credito ya fue creado anteriormente con 2. Enviarlo su proveedor
+25/08/2023 10:23:09 - Error: Nota de debito ya fue creado anteriormente con 2. Enviarlo su proveedor
