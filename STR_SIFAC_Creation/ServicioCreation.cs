@@ -10,12 +10,30 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-
+using static STR_SIFAC_UTIL.Global;
 
 namespace STR_SIFAC_Creation
 {
     public class ServicioCreation
     {
+        public static string OrgVen { get; set; }
+        public static string Year { get; set; }
+        public static string Month { get; set; }
+        public static string UseSer { get; set; }
+        public static string PasSer { get; set; }
+        public static string UrlSifac { get; set; }
+
+
+        public ServicioCreation()
+        {
+            // Se cambia la configuración en App.config de los parametros (Optimiza la consulta)
+            OrgVen = ConfigurationManager.AppSettings["OrgVen"].ToString();
+            Year = string.IsNullOrEmpty(ConfigurationManager.AppSettings["year"]) ? DateTime.UtcNow.Year.ToString() : ConfigurationManager.AppSettings["year"];
+            Month = string.IsNullOrEmpty(ConfigurationManager.AppSettings["month"]) ? DateTime.UtcNow.Month.ToString() : ConfigurationManager.AppSettings["month"];
+            UseSer = ConfigurationManager.AppSettings["UseSer"].ToString();
+            PasSer = ConfigurationManager.AppSettings["PasSer"].ToString();
+            UrlSifac = ConfigurationManager.AppSettings["urlSifac"].ToString();
+        }
 
         public async static Task IntegrarDocumentos()
         {
@@ -31,10 +49,10 @@ namespace STR_SIFAC_Creation
                 {
 
                     try
-                    {                      
-                        Global.oSq.DoQuery("SELECT TOP 1 \"WhsCode\" FROM \"OWHS\"");
+                    {
+                        oSq.DoQuery("SELECT TOP 1 \"WhsCode\" FROM \"OWHS\"");
 
-                        string almacenOrg = Global.oSq.Fields.Item(0).Value;
+                        string almacenOrg = oSq.Fields.Item(0).Value;
 
                         string tipoDoc = QuerySql.GetTipo(d.ClaDoc);
                         string serieDoc = QuerySql.GetSerie(tipoDoc);
@@ -43,11 +61,11 @@ namespace STR_SIFAC_Creation
                         if (QuerySql.Validacion(d.ClaDoc, d.NidDoc))
                         {
 
-                            Documents oDocumento = tipoDoc == "01" ? (Documents)Global.sboCompany.GetBusinessObject(BoObjectTypes.oInvoices) :
-                               tipoDoc == "07" ? (Documents)Global.sboCompany.GetBusinessObject(BoObjectTypes.oCreditNotes) :
-                               (Documents)Global.sboCompany.GetBusinessObject(BoObjectTypes.oInvoices);
+                            Documents oDocumento = tipoDoc == "01" ? (Documents)sboCompany.GetBusinessObject(BoObjectTypes.oInvoices) :
+                               tipoDoc == "07" ? (Documents)sboCompany.GetBusinessObject(BoObjectTypes.oCreditNotes) :
+                               (Documents)sboCompany.GetBusinessObject(BoObjectTypes.oInvoices);
 
-                            Items oItem = Global.sboCompany.GetBusinessObject(BoObjectTypes.oItems);
+                            Items oItem = sboCompany.GetBusinessObject(BoObjectTypes.oItems);
 
                             oDocumento.DocumentSubType = tipoDoc == "08" ? BoDocumentSubType.bod_DebitMemo : BoDocumentSubType.bod_None;
 
@@ -109,7 +127,7 @@ namespace STR_SIFAC_Creation
                             oDocumento.DocTotal = d.MonTotal;
 
 
-                            
+
 
                             int linea = 0;
                             double total = 0;
@@ -153,19 +171,6 @@ namespace STR_SIFAC_Creation
 
 
 
-                                //oDocumento.Lines.SerialNumbers.SetCurrentLine(0);
-                                //oDocumento.Lines.SerialNumbers.BaseLineNumber = linea;
-                                //oDocumento.Lines.SerialNumbers.ManufacturerSerialNumber = "1";
-
-                                //oDocumento.Lines.SerialNumbers.SystemSerialNumber = 3;
-                                //oDocumento.Lines.SerialNumbers.ManufacturerSerialNumber = "11200999";
-                                //oDocumento.Lines.SerialNumbers.InternalSerialNumber = "11200999";
-                                //oDocumento.Lines.SerialNumbers.BaseLineNumber = 1;
-                                //oDocumento.Lines.SerialNumbers.ManufacturerSerialNumber = "10900837";
-                                //oDocumento.Lines.SerialNumbers.InternalSerialNumber = "11100899";
-                                //oDocumento.Lines.SerialNumbers.InternalSerialNumber = "11200999";
-                                //oDocumento.Lines.SerialNumbers.Add();
-
                                 oDocumento.Lines.Add();
                                 linea++;
                             }
@@ -178,21 +183,21 @@ namespace STR_SIFAC_Creation
 
                             if (oDocumento.Add() == 0)
                             {
-                                Global.WriteToFile($"{documento} con correlativo {correlativoDoc} creado exitosamente!");
+                                WriteToFile($"{documento} con correlativo {correlativoDoc} creado exitosamente!");
                             }
                             else
                             {
-                                Global.WriteToFile($"Error al crear {documento}: {Global.sboCompany.GetLastErrorDescription()}");
+                                WriteToFile($"Error al crear {documento}: {sboCompany.GetLastErrorDescription()}");
                             }
                         }
                         else
                         {
-                            Global.WriteToFile($"Error: {documento} ya fue creado anteriormente {d.NidDoc}. Enviarlo al proveedor");
+                            WriteToFile($"Error: {documento} ya fue creado anteriormente {d.NidDoc}. Enviarlo al proveedor");
                         }
                     }
                     catch (Exception e)
                     {
-                        Global.WriteToFile($"Error: {e.Message}");
+                        WriteToFile($"Error: {e.Message}");
                     }
                 }
             }
@@ -202,22 +207,15 @@ namespace STR_SIFAC_Creation
         {
             try
             {
-                // Se cambia la configuración en App.config de los parametros (Optimiza la consulta)
 
-                string OrgVen = ConfigurationManager.AppSettings["OrgVen"].ToString();
-                string year = string.IsNullOrEmpty(ConfigurationManager.AppSettings["year"]) ? DateTime.UtcNow.Year.ToString() : ConfigurationManager.AppSettings["year"];
-                string month = string.IsNullOrEmpty(ConfigurationManager.AppSettings["month"]) ? DateTime.UtcNow.Month.ToString() : ConfigurationManager.AppSettings["month"];
-                string UseSer = ConfigurationManager.AppSettings["UseSer"].ToString();
-                string PasSer = ConfigurationManager.AppSettings["PasSer"].ToString();
-                string urlSifac = ConfigurationManager.AppSettings["urlSifac"].ToString();
 
                 using (var cliente = new HttpClient())
                 {
                     var body = new Dictionary<string, string>()
                     {
-                        { "OrgVen",OrgVen},
-                        { "Ejercicio", Convert.ToInt32(year).ToString()},
-                        { "Periodo", Convert.ToInt32(month).ToString()},
+                        { "OrgVen", OrgVen},
+                        { "Ejercicio", Convert.ToInt32(Year).ToString()},
+                        { "Periodo", Convert.ToInt32(Month).ToString()},
                         { "StaDoc", "PEN"},
                         { "UseSer", UseSer},
                         { "PasSer", PasSer}
@@ -226,7 +224,7 @@ namespace STR_SIFAC_Creation
 
                     var request = new HttpRequestMessage()
                     {
-                        RequestUri = new Uri(urlSifac + "obtener"),
+                        RequestUri = new Uri(UrlSifac + "obtener"),
                         Method = HttpMethod.Post,
                         Content = new FormUrlEncodedContent(body)
                     };
@@ -237,13 +235,13 @@ namespace STR_SIFAC_Creation
                     if (data.FlaSer)
                         return data.DatSer;
                     else
-                        Global.WriteToFile("ERROR: FLASER FALSE");
+                        WriteToFile("ERROR: FLASER FALSE");
                     throw new Exception();
                 }
             }
             catch (Exception e)
             {
-                Global.WriteToFile(e.Message.ToString());
+                WriteToFile(e.Message.ToString());
                 throw new Exception();
             }
 
@@ -251,68 +249,173 @@ namespace STR_SIFAC_Creation
 
         public async static Task IntegrarEnviados()
         {
-            Global.oSq.DoQuery("SELECT \"U_STR_NidDoc\",\"U_BPP_MDSD\" + '-' + \"U_bPP_MDCD\" AS \"FolioDoc\" FROM OINV WHERE \"U_STR_Estado\" = 'E' AND \"U_STR_Sifac_Estado\" = 'PEN' \r\nAND ISNULL(\"U_STR_CdgHash\",'X') <> 'X' AND DATEDIFF(DAY, DocDate, GETDATE()) < 3 UNION ALL \r\nSELECT \"U_STR_NidDoc\",\"U_BPP_MDSD\" + '-'+ \"U_bPP_MDCD\" AS \"FolioDoc\" FROM ORIN WHERE \"U_STR_Estado\" = 'E' AND \"U_STR_SIfac_Estado\" = 'PEN' \r\nAND ISNULL(\"U_STR_CdgHash\",'X') <> 'X' AND DATEDIFF(DAY, DocDate, GETDATE()) < 3 ");
 
-            while (Global.oSq.EoF)
+            try
             {
-                dynamic a = Global.oSq.Fields.Item(0).Value;
+
+                if (sboCompany.DbServerType != BoDataServerTypes.dst_HANADB)
+                    oSq.DoQuery("EXEC STR_Docs_Aceptados_Sifac");
+                else
+                    oSq.DoQuery("CALL STR_Docs_Aceptados_Sifac");
+
+                if (oSq.RecordCount > 0)
+                {
+
+
+                    var body = new Dictionary<string, string>()
+                    {
+                            { "NidDoc", "" },
+                            { "FolDoc", "" },
+                            { "StaDoc", "ACE" },
+                            { "UseSer", UseSer},
+                            { "PasSer", PasSer}
+                    };
+
+
+                    while (oSq.EoF)
+                    {
+                        try
+                        {
+                            using (var cliente = new HttpClient())
+                            {
+                                body["NidDoc"] = oSq.Fields.Item(0).Value;
+                                body["FolDoc"] = oSq.Fields.Item(1).Value;
+
+
+                                var request = new HttpRequestMessage()
+                                {
+                                    RequestUri = new Uri(UrlSifac + "ActualizarDocumento"),
+                                    Method = HttpMethod.Post,
+                                    Content = new FormUrlEncodedContent(body)
+                                };
+
+                                var response = cliente.SendAsync(request).Result;
+                                if (response.IsSuccessStatusCode)
+                                {
+                                    WriteToFile($"¡Documento {body["FolDoc"]} fue actualizado a {body["StaDoc"]} exitosamente!");
+                                }
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            WriteToFile("No se pudo actualizar documento: " + e.Message);
+                        }
+                    }
+                }
             }
-        
+            catch (Exception e)
+            {
+                WriteToFile(e.Message);
+
+            }
         }
-       
+
+        public async static Task IntegrarRechazados()
+        {
+            try
+            {
+                if (sboCompany.DbServerType != BoDataServerTypes.dst_HANADB)
+                    oSq.DoQuery("EXEC STR_Docs_Rechazados_Sifac");
+                else
+                    oSq.DoQuery("CALL STR_Docs_Rechazados_Sifac");
+
+                if (oSq.RecordCount > 0)
+                {
+                    var body = new Dictionary<string, string>()
+                    {
+                            { "NidDoc", "" },
+                            { "FolDoc", "" },
+                            { "StaDoc", "ERR" },
+                            { "TexSta",""},
+                            { "UseSer", UseSer},
+                            { "PasSer", PasSer}
+                    };
+
+                    while (oSq.EoF)
+                    {
+
+                        try
+                        {
+                            using (var cliente = new HttpClient())
+                            {
+                                body["NidDoc"] = oSq.Fields.Item(0).Value;
+                                body["FolDoc"] = oSq.Fields.Item(1).Value;
+                                body["TexSta"] = oSq.Fields.Item(2).Value;
+
+                                var request = new HttpRequestMessage()
+                                {
+                                    RequestUri = new Uri(UrlSifac + "ActualizarDocumento"),
+                                    Method = HttpMethod.Post,
+                                    Content = new FormUrlEncodedContent(body)
+                                };
+
+                                var response = cliente.SendAsync(request).Result;
+                                if (response.IsSuccessStatusCode)
+                                {
+                                    WriteToFile($"¡Documento {body["FolDoc"]} fue actualizado a {body["StaDoc"]} exitosamente!");
+                                }
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            WriteToFile("No se pudo actualizar documento: " + e.Message);
+                        }
+
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                WriteToFile(e.Message);
+            }
+
+        }
 
         public static void Connect()
         {
             try
             {
-
-                Global.sboCompany.Server = ConfigurationManager.AppSettings["SAP_SERVIDOR"];
-                Global.sboCompany.CompanyDB = ConfigurationManager.AppSettings["SAP_BASE"];
-                Global.sboCompany.DbServerType = ConfigurationManager.AppSettings["SAP_TIPO_BASE"] == "HANA" ? SAPbobsCOM.BoDataServerTypes.dst_HANADB : SAPbobsCOM.BoDataServerTypes.dst_MSSQL2016;
-                Global.sboCompany.DbUserName = ConfigurationManager.AppSettings["SAP_DBUSUARIO"];
-                Global.sboCompany.DbPassword = ConfigurationManager.AppSettings["SAP_DBPASSWORD"];
-                Global.sboCompany.UserName = ConfigurationManager.AppSettings["SAP_USUARIO"];
-                Global.sboCompany.Password = ConfigurationManager.AppSettings["SAP_PASSWORD"];
-                Global.sboCompany.language = SAPbobsCOM.BoSuppLangs.ln_Spanish_La;
+                sboCompany.Server = ConfigurationManager.AppSettings["SAP_SERVIDOR"];
+                sboCompany.CompanyDB = ConfigurationManager.AppSettings["SAP_BASE"];
+                sboCompany.DbServerType = QuerySql.GetTypeDB(ConfigurationManager.AppSettings["SAP_TIPO_BASE"]);
+                sboCompany.DbUserName = ConfigurationManager.AppSettings["SAP_DBUSUARIO"];
+                sboCompany.DbPassword = ConfigurationManager.AppSettings["SAP_DBPASSWORD"];
+                sboCompany.UserName = ConfigurationManager.AppSettings["SAP_USUARIO"];
+                sboCompany.Password = ConfigurationManager.AppSettings["SAP_PASSWORD"];
+                sboCompany.language = BoSuppLangs.ln_Spanish_La;
 
             }
             catch (Exception ex)
             {
-                string mensaje = ex.Message;
-                throw;
+                WriteToFile(ex.Message);
             }
         }
+
 
 
         public static void Conexion()
         {
             try
             {
-
-                string a = Global.sboCompany.Server;
-                string a1 = Global.sboCompany.CompanyDB;
-                string a2 = Global.sboCompany.DbUserName;
-                string a3 = Global.sboCompany.DbPassword;
-                string a4 = Global.sboCompany.UserName;
-                string a5 = Global.sboCompany.Password;
-                if (Global.sboCompany.Connect() != 0)
+                if (sboCompany.Connect() != 0)
                 {
-                    Global.WriteToFile("CONEXION-SAPConnector:" + Global.sboCompany.GetLastErrorDescription());
+                    WriteToFile("CONEXION-SAPConnector:" + sboCompany.GetLastErrorDescription());
                     throw new Exception(Global.sboCompany.GetLastErrorDescription());
                 }
                 else
                 {
-                    Global.WriteToFile("CONEXION EXITOSA");
+                    WriteToFile("CONEXION EXITOSA");
 
-                    Global.oSq = Global.sboCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset);
-                    Global.QueryPosition = Global.sboCompany.DbServerType == SAPbobsCOM.BoDataServerTypes.dst_HANADB ? 1 : 0;
+                    oSq = sboCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset);
+                    QueryPosition = sboCompany.DbServerType == SAPbobsCOM.BoDataServerTypes.dst_HANADB ? 1 : 0;
                 }
 
             }
             catch (Exception ex)
             {
 
-                Global.WriteToFile("CONEXION :" + ex.Message);
+                WriteToFile("CONEXION :" + ex.Message);
             }
         }
     }

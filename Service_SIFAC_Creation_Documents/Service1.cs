@@ -66,7 +66,8 @@ namespace Service_SIFAC_Creation_Documents
                 {
                     procesoTerminado = false;
                     ServicioCreation.IntegrarDocumentos().Wait();
-                    ServicioCreation.IntegrarEnviados().Wait(); 
+                    ServicioCreation.IntegrarEnviados().Wait();
+                    ServicioCreation.IntegrarRechazados().Wait();
                     procesoTerminado = true;
                 }
             }

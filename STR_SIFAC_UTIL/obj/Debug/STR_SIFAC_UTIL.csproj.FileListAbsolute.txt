@@ -17,3 +17,11 @@ D:\Sebastian Poma\Sifac\Service_SIFAC_Creation_Documents\STR_SIFAC_UTIL\obj\Debu
 D:\Sebastian Poma\Sifac\Service_SIFAC_Creation_Documents\STR_SIFAC_UTIL\obj\Debug\STR_SIFAC_UTIL.csproj.CopyComplete
 D:\Sebastian Poma\Sifac\Service_SIFAC_Creation_Documents\STR_SIFAC_UTIL\obj\Debug\STR_SIFAC_UTIL.dll
 D:\Sebastian Poma\Sifac\Service_SIFAC_Creation_Documents\STR_SIFAC_UTIL\obj\Debug\STR_SIFAC_UTIL.pdb
+C:\Users\Sebastian\Source\Repos\STR_SIFAC_CreationDocuments\STR_SIFAC_UTIL\bin\Debug\STR_SIFAC_UTIL.dll
+C:\Users\Sebastian\Source\Repos\STR_SIFAC_CreationDocuments\STR_SIFAC_UTIL\bin\Debug\STR_SIFAC_UTIL.pdb
+C:\Users\Sebastian\Source\Repos\STR_SIFAC_CreationDocuments\STR_SIFAC_UTIL\bin\Debug\System.ComponentModel.Annotations.dll
+C:\Users\Sebastian\Source\Repos\STR_SIFAC_CreationDocuments\STR_SIFAC_UTIL\obj\Debug\STR_SIFAC_UTIL.csproj.AssemblyReference.cache
+C:\Users\Sebastian\Source\Repos\STR_SIFAC_CreationDocuments\STR_SIFAC_UTIL\obj\Debug\STR_SIFAC_UTIL.csproj.CoreCompileInputs.cache
+C:\Users\Sebastian\Source\Repos\STR_SIFAC_CreationDocuments\STR_SIFAC_UTIL\obj\Debug\STR_SIFAC_UTIL.csproj.CopyComplete
+C:\Users\Sebastian\Source\Repos\STR_SIFAC_CreationDocuments\STR_SIFAC_UTIL\obj\Debug\STR_SIFAC_UTIL.dll
+C:\Users\Sebastian\Source\Repos\STR_SIFAC_CreationDocuments\STR_SIFAC_UTIL\obj\Debug\STR_SIFAC_UTIL.pdb

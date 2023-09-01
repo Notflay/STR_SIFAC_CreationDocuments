@@ -14,7 +14,31 @@ namespace STR_SIFAC_Creation
 
         public QuerySql()
         {
-            
+
+        }
+
+        public static BoDataServerTypes GetTypeDB(string db)
+        {
+            try
+            {
+                switch (db)
+                {
+                    case "HANA":
+                        return BoDataServerTypes.dst_HANADB;
+                    case "SQL14":
+                        return BoDataServerTypes.dst_MSSQL2014;
+                    case "SQL16":
+                        return BoDataServerTypes.dst_MSSQL2016;
+                    case "SQL17":
+                        return BoDataServerTypes.dst_MSSQL2017;
+                    default:
+                        throw new ArgumentException($"Tipo de base de datos no válido {db}. Intentar con(HANA,SQL14,SQL16,SQL17)");
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
 
