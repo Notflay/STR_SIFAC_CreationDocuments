@@ -1,0 +1,95 @@
+1/09/2023 10:42:54 - CONEXION EXITOSA
+1/09/2023 10:44:14 - Error: Factura ya fue creado anteriormente FA2580. Enviarlo al proveedor
+1/09/2023 10:44:57 - Error: Factura ya fue creado anteriormente FCC582. Enviarlo al proveedor
+1/09/2023 10:45:18 - Error: Nota de Credito ya fue creado anteriormente FC2579. Enviarlo al proveedor
+1/09/2023 10:45:57 - Error: Nota de debito ya fue creado anteriormente FD2579. Enviarlo al proveedor
+1/09/2023 10:52:29 - CONEXION-SAPConnector:Error during SBO user authentication
+1/09/2023 10:52:29 - CONEXION :Error during SBO user authentication
+1/09/2023 10:53:26 - CONEXION EXITOSA
+1/09/2023 11:00:00 - CONEXION EXITOSA
+1/09/2023 11:02:59 - CONEXION EXITOSA
+1/09/2023 11:03:56 - CONEXION EXITOSA
+1/09/2023 11:08:05 - CONEXION EXITOSA
+1/09/2023 11:11:08 - CONEXION EXITOSA
+1/09/2023 11:12:49 - No se pudo actualizar documento: {"Message":"No HTTP resource was found that matches the request URI 'http://localhost:50415/api/ActualizarDocumento'.","MessageDetail":"No type was found that matches the controller named 'ActualizarDocumento'."}
+1/09/2023 11:12:56 - No se pudo actualizar documento: {"Message":"No HTTP resource was found that matches the request URI 'http://localhost:50415/api/ActualizarDocumento'.","MessageDetail":"No type was found that matches the controller named 'ActualizarDocumento'."}
+1/09/2023 14:14:41 - CONEXION EXITOSA
+1/09/2023 14:15:33 - Error: Factura ya fue creado anteriormente FA2580. Enviarlo al proveedor
+1/09/2023 14:15:51 - Error: Factura ya fue creado anteriormente FCC582. Enviarlo al proveedor
+1/09/2023 14:15:51 - Error: Nota de Credito ya fue creado anteriormente FC2579. Enviarlo al proveedor
+1/09/2023 14:15:51 - Error: Nota de debito ya fue creado anteriormente FD2579. Enviarlo al proveedor
+1/09/2023 14:15:59 - No se pudo actualizar documento: {"Message":"No HTTP resource was found that matches the request URI 'http://localhost:50415/api/ActualizarDocumento'.","MessageDetail":"No type was found that matches the controller named 'ActualizarDocumento'."}
+1/09/2023 14:15:59 - No se pudo actualizar documento: {"Message":"No HTTP resource was found that matches the request URI 'http://localhost:50415/api/ActualizarDocumento'.","MessageDetail":"No type was found that matches the controller named 'ActualizarDocumento'."}
+1/09/2023 14:26:21 - CONEXION EXITOSA
+1/09/2023 14:26:25 - Error: Factura ya fue creado anteriormente FA2580. Enviarlo al proveedor
+1/09/2023 14:26:26 - Error: Factura ya fue creado anteriormente FCC582. Enviarlo al proveedor
+1/09/2023 14:26:26 - Error: Nota de Credito ya fue creado anteriormente FC2579. Enviarlo al proveedor
+1/09/2023 14:26:26 - Error: Nota de debito ya fue creado anteriormente FD2579. Enviarlo al proveedor
+1/09/2023 14:26:27 - No se pudo actualizar documento: {"Message":"No HTTP resource was found that matches the request URI 'http://localhost:50415/api/ActualizarDocumento'.","MessageDetail":"No type was found that matches the controller named 'ActualizarDocumento'."}
+1/09/2023 14:26:27 - No se pudo actualizar documento: {"Message":"No HTTP resource was found that matches the request URI 'http://localhost:50415/api/ActualizarDocumento'.","MessageDetail":"No type was found that matches the controller named 'ActualizarDocumento'."}
+1/09/2023 14:26:41 - CONEXION-SAPConnector:You are already connected to a company
+1/09/2023 14:26:41 - CONEXION :You are already connected to a company
+1/09/2023 14:26:43 - Error: Factura ya fue creado anteriormente FA2580. Enviarlo al proveedor
+1/09/2023 14:26:43 - Error: Factura ya fue creado anteriormente FCC582. Enviarlo al proveedor
+1/09/2023 14:26:43 - Error: Nota de Credito ya fue creado anteriormente FC2579. Enviarlo al proveedor
+1/09/2023 14:26:43 - Error: Nota de debito ya fue creado anteriormente FD2579. Enviarlo al proveedor
+1/09/2023 14:26:43 - No se pudo actualizar documento: {"Message":"No HTTP resource was found that matches the request URI 'http://localhost:50415/api/ActualizarDocumento'.","MessageDetail":"No type was found that matches the controller named 'ActualizarDocumento'."}
+1/09/2023 14:26:43 - No se pudo actualizar documento: {"Message":"No HTTP resource was found that matches the request URI 'http://localhost:50415/api/ActualizarDocumento'.","MessageDetail":"No type was found that matches the controller named 'ActualizarDocumento'."}
+1/09/2023 14:26:51 - CONEXION-SAPConnector:You are already connected to a company
+1/09/2023 14:26:51 - CONEXION :You are already connected to a company
+1/09/2023 14:26:51 - Error: Factura ya fue creado anteriormente FA2580. Enviarlo al proveedor
+1/09/2023 14:26:51 - Error: Factura ya fue creado anteriormente FCC582. Enviarlo al proveedor
+1/09/2023 14:26:51 - Error: Nota de Credito ya fue creado anteriormente FC2579. Enviarlo al proveedor
+1/09/2023 14:26:51 - Error: Nota de debito ya fue creado anteriormente FD2579. Enviarlo al proveedor
+1/09/2023 14:26:52 - No se pudo actualizar documento: {"Message":"No HTTP resource was found that matches the request URI 'http://localhost:50415/api/ActualizarDocumento'.","MessageDetail":"No type was found that matches the controller named 'ActualizarDocumento'."}
+1/09/2023 14:26:52 - No se pudo actualizar documento: {"Message":"No HTTP resource was found that matches the request URI 'http://localhost:50415/api/ActualizarDocumento'.","MessageDetail":"No type was found that matches the controller named 'ActualizarDocumento'."}
+1/09/2023 14:30:27 - CONEXION EXITOSA
+1/09/2023 14:30:27 - Error: Factura ya fue creado anteriormente FA2580. Enviarlo al proveedor
+1/09/2023 14:30:28 - Error: Factura ya fue creado anteriormente FCC582. Enviarlo al proveedor
+1/09/2023 14:30:28 - Error: Nota de Credito ya fue creado anteriormente FC2579. Enviarlo al proveedor
+1/09/2023 14:30:28 - Error: Nota de debito ya fue creado anteriormente FD2579. Enviarlo al proveedor
+1/09/2023 14:30:30 - No se pudo actualizar documento: {"Message":"No HTTP resource was found that matches the request URI 'http://localhost:50415/api/ActualizarDocumento'.","MessageDetail":"No type was found that matches the controller named 'ActualizarDocumento'."}
+1/09/2023 14:30:30 - No se pudo actualizar documento: {"Message":"No HTTP resource was found that matches the request URI 'http://localhost:50415/api/ActualizarDocumento'.","MessageDetail":"No type was found that matches the controller named 'ActualizarDocumento'."}
+1/09/2023 14:31:46 - CONEXION-SAPConnector:You are already connected to a company
+1/09/2023 14:31:46 - CONEXION :You are already connected to a company
+1/09/2023 14:31:55 - CONEXION :El proceso no puede obtener acceso al archivo 'D:\Sebastian Poma\Sifac\Service_SIFAC_Creation_Documents\Service_SIFAC_Creation_Documents\bin\Debug\Logs\Service_Creation_Log_1_09_2023.txt' porque está siendo utilizado en otro proceso.
+1/09/2023 14:31:58 - Error: Factura ya fue creado anteriormente FA2580. Enviarlo al proveedor
+1/09/2023 14:32:08 - Error: Factura ya fue creado anteriormente FCC582. Enviarlo al proveedor
+1/09/2023 14:33:07 - CONEXION EXITOSA
+1/09/2023 14:33:24 - Error: Factura ya fue creado anteriormente FA2580. Enviarlo al proveedor
+1/09/2023 14:33:25 - Error: Factura ya fue creado anteriormente FCC582. Enviarlo al proveedor
+1/09/2023 14:33:25 - Error: Nota de Credito ya fue creado anteriormente FC2579. Enviarlo al proveedor
+1/09/2023 14:33:25 - Error: Nota de debito ya fue creado anteriormente FD2579. Enviarlo al proveedor
+1/09/2023 14:33:27 - No se pudo actualizar documento: {"Message":"No HTTP resource was found that matches the request URI 'http://localhost:50415/api/ActualizarDocumento'.","MessageDetail":"No type was found that matches the controller named 'ActualizarDocumento'."}
+1/09/2023 14:33:27 - No se pudo actualizar documento: {"Message":"No HTTP resource was found that matches the request URI 'http://localhost:50415/api/ActualizarDocumento'.","MessageDetail":"No type was found that matches the controller named 'ActualizarDocumento'."}
+1/09/2023 14:41:48 - CONEXION EXITOSA
+1/09/2023 14:41:49 - Error: Factura ya fue creado anteriormente FA2580. Enviarlo al proveedor
+1/09/2023 14:41:49 - Error: Factura ya fue creado anteriormente FCC582. Enviarlo al proveedor
+1/09/2023 14:41:49 - Error: Nota de Credito ya fue creado anteriormente FC2579. Enviarlo al proveedor
+1/09/2023 14:41:50 - Error: Nota de debito ya fue creado anteriormente FD2579. Enviarlo al proveedor
+1/09/2023 14:41:50 - No se pudo actualizar documento: {"Message":"No HTTP resource was found that matches the request URI 'http://localhost:50415/api/ActualizarDocumento'.","MessageDetail":"No type was found that matches the controller named 'ActualizarDocumento'."}
+1/09/2023 14:41:50 - No se pudo actualizar documento: {"Message":"No HTTP resource was found that matches the request URI 'http://localhost:50415/api/ActualizarDocumento'.","MessageDetail":"No type was found that matches the controller named 'ActualizarDocumento'."}
+1/09/2023 14:42:57 - Error: Factura ya fue creado anteriormente FA2580. Enviarlo al proveedor
+1/09/2023 14:42:59 - Error: Factura ya fue creado anteriormente FCC582. Enviarlo al proveedor
+1/09/2023 14:42:59 - Error: Nota de Credito ya fue creado anteriormente FC2579. Enviarlo al proveedor
+1/09/2023 14:42:59 - Error: Nota de debito ya fue creado anteriormente FD2579. Enviarlo al proveedor
+1/09/2023 14:43:00 - No se pudo actualizar documento: {"Message":"No HTTP resource was found that matches the request URI 'http://localhost:50415/api/ActualizarDocumento'.","MessageDetail":"No type was found that matches the controller named 'ActualizarDocumento'."}
+1/09/2023 14:43:00 - No se pudo actualizar documento: {"Message":"No HTTP resource was found that matches the request URI 'http://localhost:50415/api/ActualizarDocumento'.","MessageDetail":"No type was found that matches the controller named 'ActualizarDocumento'."}
+1/09/2023 15:40:09 - CONEXION EXITOSA
+1/09/2023 15:42:13 - Error: Factura ya fue creado anteriormente FA2580. Enviarlo al proveedor
+1/09/2023 15:52:53 - CONEXION EXITOSA
+1/09/2023 16:28:36 - CONEXION EXITOSA
+1/09/2023 16:58:58 - CONEXION EXITOSA
+1/09/2023 16:59:17 - Error: Factura ya fue creado anteriormente FA2580. Enviarlo al proveedor
+1/09/2023 16:59:34 - Error: Factura ya fue creado anteriormente FCC582. Enviarlo al proveedor
+1/09/2023 16:59:46 - Error: Nota de Credito ya fue creado anteriormente FC2579. Enviarlo al proveedor
+1/09/2023 16:59:56 - Error: Nota de debito ya fue creado anteriormente FD2579. Enviarlo al proveedor
+1/09/2023 17:00:19 - No se pudo actualizar documento: {"Message":"No HTTP resource was found that matches the request URI 'http://localhost:50415/api/ActualizarDocumento'.","MessageDetail":"No type was found that matches the controller named 'ActualizarDocumento'."}
+1/09/2023 17:00:19 - No se pudo actualizar documento: {"Message":"No HTTP resource was found that matches the request URI 'http://localhost:50415/api/ActualizarDocumento'.","MessageDetail":"No type was found that matches the controller named 'ActualizarDocumento'."}
+1/09/2023 17:02:01 - CONEXION EXITOSA
+1/09/2023 17:02:11 - Error: Factura ya fue creado anteriormente FA2580. Enviarlo al proveedor
+1/09/2023 17:02:12 - Error: Factura ya fue creado anteriormente FCC582. Enviarlo al proveedor
+1/09/2023 17:02:12 - Error: Nota de Credito ya fue creado anteriormente FC2579. Enviarlo al proveedor
+1/09/2023 17:02:17 - Error: Nota de debito ya fue creado anteriormente FD2579. Enviarlo al proveedor
+1/09/2023 17:02:55 - No se pudo actualizar documento: {"Message":"No HTTP resource was found that matches the request URI 'http://localhost:50415/api/ActualizarDocumento'.","MessageDetail":"No type was found that matches the controller named 'ActualizarDocumento'."}
+1/09/2023 17:02:58 - No se pudo actualizar documento: {"Message":"No HTTP resource was found that matches the request URI 'http://localhost:50415/api/ActualizarDocumento'.","MessageDetail":"No type was found that matches the controller named 'ActualizarDocumento'."}

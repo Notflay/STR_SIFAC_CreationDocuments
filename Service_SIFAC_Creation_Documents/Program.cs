@@ -14,15 +14,15 @@ namespace Service_SIFAC_Creation_Documents
         /// </summary>
         static void Main()
         {
-            //ServiceBase[] ServicesToRun;
-            //ServicesToRun = new ServiceBase[]
-            //{
-            //    new Service1()
-            //};
-            //ServiceBase.Run(ServicesToRun);
+            ServiceBase[] ServicesToRun;    
+            ServicesToRun = new ServiceBase[]
+            {
+                new Service1()
+            };
+            ServiceBase.Run(ServicesToRun);
 
-            Service1 service = new Service1();
-            service.Ejecutar();
+            //Service1 service = new Service1();
+            //service.Ejecutar();
         }
     }
 }

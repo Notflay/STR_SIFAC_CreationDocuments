@@ -199,7 +199,7 @@ namespace STR_SIFAC_Creation
             try
             {
                 string table = tipo == "ZSNC" ? "ORIN" : "OINV";
-
+           
                 Global.oSq.DoQuery($"SELECT \"DocEntry\" FROM {table} WHERE \"U_STR_NidDoc\" = '{niDoc}'");
                 if (Global.oSq.RecordCount > 0)
                     return false;
@@ -216,7 +216,7 @@ namespace STR_SIFAC_Creation
             try
             {
                 string table = tipoDoc == "07" ? "ORIN" : "OINV";
-                Global.oSq.DoQuery($"SELECT TOP 1 \"U_BPP_MDCD\"  FROM {table} WHERE \"U_BPP_MDSD\" = '{Serie}' ORDER BY CAST(\"U_BPP_MDCD\" AS INT) DESC");
+                Global.oSq.DoQuery($"SELECT MAX(CAST(\"U_BPP_MDCD\"AS INT)) FROM {table} WHERE \"U_BPP_MDSD\" = '{Serie}'");
                 int correlativo = Global.oSq.RecordCount == 0 ? 1 : Convert.ToInt32(Global.oSq.Fields.Item(0).Value) + 1;
 
                 return Convert.ToString(correlativo);

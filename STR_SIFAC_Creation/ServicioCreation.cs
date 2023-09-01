@@ -22,8 +22,6 @@ namespace STR_SIFAC_Creation
         public static string UseSer { get; set; }
         public static string PasSer { get; set; }
         public static string UrlSifac { get; set; }
-
-
         public ServicioCreation()
         {
             // Se cambia la configuración en App.config de los parametros (Optimiza la consulta)
@@ -34,8 +32,7 @@ namespace STR_SIFAC_Creation
             PasSer = ConfigurationManager.AppSettings["PasSer"].ToString();
             UrlSifac = ConfigurationManager.AppSettings["urlSifac"].ToString();
         }
-
-        public async static Task IntegrarDocumentos()
+        public async Task IntegrarDocumentos()
         {
 
             List<usp_sic_EnviarDocumento_Sap> data = NewDocuments();
@@ -43,7 +40,6 @@ namespace STR_SIFAC_Creation
             if (data.Count > 0)
             {
                 Connect();
-                Conexion();
 
                 foreach (usp_sic_EnviarDocumento_Sap d in data)
                 {
@@ -175,11 +171,7 @@ namespace STR_SIFAC_Creation
                                 linea++;
                             }
 
-
-
                             string xml = oDocumento.GetAsXML();
-
-
 
                             if (oDocumento.Add() == 0)
                             {
@@ -201,13 +193,216 @@ namespace STR_SIFAC_Creation
                     }
                 }
             }
-        }
+        }       
+        public async Task IntegrarEnviados()
+        {
 
+            if (!sboCompany.Connected)
+                Connect();
+            try
+            {
+
+                if (sboCompany.DbServerType != BoDataServerTypes.dst_HANADB)
+                    oSq.DoQuery("EXEC STR_Docs_Aceptados_Sifac");
+                else
+                    oSq.DoQuery("CALL STR_Docs_Aceptados_Sifac");
+
+                if (oSq.RecordCount > 0)
+                {
+
+
+                    var body = new Dictionary<string, string>()
+                    {
+                            { "NidDoc", "" },
+                            { "FolDoc", "" },
+                            { "StaDoc", "ACE" },
+                            { "UseSer", UseSer},
+                            { "PasSer", PasSer}
+                    };
+
+
+                    while(!oSq.EoF)
+                    {
+                        try
+                        {
+                            using (var cliente = new HttpClient())
+                            {
+                                body["NidDoc"] = oSq.Fields.Item(0).Value;
+                                body["FolDoc"] = oSq.Fields.Item(1).Value;
+
+
+                                var request = new HttpRequestMessage()
+                                {
+                                    RequestUri = new Uri(UrlSifac + "ActualizarDocumento"),
+                                    Method = HttpMethod.Post,
+                                    Content = new FormUrlEncodedContent(body)
+                                };
+
+                                var response = cliente.SendAsync(request).Result;
+                                if (response.IsSuccessStatusCode)
+                                {
+                                    WriteToFile($"¡Documento {body["FolDoc"]} fue actualizado a {body["StaDoc"]} exitosamente!");
+                                }
+                                else
+                                {
+                                    WriteToFile("No se pudo actualizar documento: " + response.Content.ReadAsStringAsync().Result);
+                                }
+                            }
+
+                        }
+                        catch (Exception e)
+                        {
+                            WriteToFile("Error al actualizar documento: " + e.Message);
+                        }
+                        finally {
+                            oSq.MoveNext();
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                WriteToFile(e.Message);
+
+            }
+        }
+        public async Task IntegrarRechazados()
+        {
+            try
+            {
+                if (sboCompany.DbServerType != BoDataServerTypes.dst_HANADB)
+                    oSq.DoQuery("EXEC STR_Docs_Rechazados_Sifac");
+                else
+                    oSq.DoQuery("CALL STR_Docs_Rechazados_Sifac");
+
+                if (oSq.RecordCount > 0)
+                {
+                    var body = new Dictionary<string, string>()
+                    {
+                            { "NidDoc", "" },
+                            { "FolDoc", "" },
+                            { "StaDoc", "ERR" },
+                            { "TexSta",""},
+                            { "UseSer", UseSer},
+                            { "PasSer", PasSer}
+                    };
+
+                    while (!oSq.EoF)
+                    {
+                        try
+                        {
+                            using (var cliente = new HttpClient())
+                            {
+                                body["NidDoc"] = oSq.Fields.Item(0).Value;
+                                body["FolDoc"] = oSq.Fields.Item(1).Value;
+                                body["TexSta"] = oSq.Fields.Item(2).Value;
+
+                                var request = new HttpRequestMessage()
+                                {
+                                    RequestUri = new Uri(UrlSifac + "ActualizarDocumento"),
+                                    Method = HttpMethod.Post,
+                                    Content = new FormUrlEncodedContent(body)
+                                };
+
+                                var response = cliente.SendAsync(request).Result;
+                                if (response.IsSuccessStatusCode)
+                                {
+                                    WriteToFile($"¡Documento {body["FolDoc"]} fue actualizado a {body["StaDoc"]} exitosamente!");
+                                }
+                                else {
+                                    WriteToFile("No se pudo actualizar documento: " + response.Content.ReadAsStringAsync().Result);
+                                }
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            WriteToFile("No se pudo actualizar documento: " + e.Message);
+                        }
+                        finally {
+                            oSq.MoveNext();
+                        }
+
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                WriteToFile(e.Message);
+            }
+
+        }
+        public async Task IntegrarCancelados()
+        {
+            try
+            {
+                if (sboCompany.DbServerType != BoDataServerTypes.dst_HANADB)
+                    oSq.DoQuery("EXEC STR_Docs_Cancelados_Sifac");
+                else
+                    oSq.DoQuery("CALL STR_Docs_Cancelados_Sifac");
+
+                if (oSq.RecordCount > 0)
+                {
+                    var body = new Dictionary<string, string>()
+                    {
+                            { "NidDoc", "" },
+                            { "FolDoc", "" },
+                            { "StaDoc", "BAJ" },
+                            { "TexSta",""},
+                            { "UseSer", UseSer},
+                            { "PasSer", PasSer}
+                    };
+
+                    while (!oSq.EoF)
+                    {
+                        try
+                        {
+                            using (var cliente = new HttpClient())
+                            {
+                                body["NidDoc"] = oSq.Fields.Item(0).Value;
+                                body["FolDoc"] = oSq.Fields.Item(1).Value;
+                                body["TexSta"] = oSq.Fields.Item(2).Value;
+
+                                var request = new HttpRequestMessage()
+                                {
+                                    RequestUri = new Uri(UrlSifac + "ActualizarDocumento"),
+                                    Method = HttpMethod.Post,
+                                    Content = new FormUrlEncodedContent(body)
+                                };
+
+                                var response = cliente.SendAsync(request).Result;
+                                if (response.IsSuccessStatusCode)
+                                {
+                                    WriteToFile($"¡Documento {body["FolDoc"]} fue actualizado a {body["StaDoc"]} exitosamente!");
+                                }
+                                else
+                                {
+                                    WriteToFile("No se pudo actualizar documento: " + response.Content.ReadAsStringAsync().Result);
+                                }
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            WriteToFile("No se pudo actualizar documento: " + e.Message);
+                        }
+                        finally
+                        {
+                            oSq.MoveNext();
+                        }
+
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                WriteToFile(e.Message);
+            }
+        }
         public static List<usp_sic_EnviarDocumento_Sap> NewDocuments()
         {
             try
             {
-
 
                 using (var cliente = new HttpClient())
                 {
@@ -246,132 +441,6 @@ namespace STR_SIFAC_Creation
             }
 
         }
-
-        public async static Task IntegrarEnviados()
-        {
-
-            try
-            {
-
-                if (sboCompany.DbServerType != BoDataServerTypes.dst_HANADB)
-                    oSq.DoQuery("EXEC STR_Docs_Aceptados_Sifac");
-                else
-                    oSq.DoQuery("CALL STR_Docs_Aceptados_Sifac");
-
-                if (oSq.RecordCount > 0)
-                {
-
-
-                    var body = new Dictionary<string, string>()
-                    {
-                            { "NidDoc", "" },
-                            { "FolDoc", "" },
-                            { "StaDoc", "ACE" },
-                            { "UseSer", UseSer},
-                            { "PasSer", PasSer}
-                    };
-
-
-                    while (oSq.EoF)
-                    {
-                        try
-                        {
-                            using (var cliente = new HttpClient())
-                            {
-                                body["NidDoc"] = oSq.Fields.Item(0).Value;
-                                body["FolDoc"] = oSq.Fields.Item(1).Value;
-
-
-                                var request = new HttpRequestMessage()
-                                {
-                                    RequestUri = new Uri(UrlSifac + "ActualizarDocumento"),
-                                    Method = HttpMethod.Post,
-                                    Content = new FormUrlEncodedContent(body)
-                                };
-
-                                var response = cliente.SendAsync(request).Result;
-                                if (response.IsSuccessStatusCode)
-                                {
-                                    WriteToFile($"¡Documento {body["FolDoc"]} fue actualizado a {body["StaDoc"]} exitosamente!");
-                                }
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            WriteToFile("No se pudo actualizar documento: " + e.Message);
-                        }
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                WriteToFile(e.Message);
-
-            }
-        }
-
-        public async static Task IntegrarRechazados()
-        {
-            try
-            {
-                if (sboCompany.DbServerType != BoDataServerTypes.dst_HANADB)
-                    oSq.DoQuery("EXEC STR_Docs_Rechazados_Sifac");
-                else
-                    oSq.DoQuery("CALL STR_Docs_Rechazados_Sifac");
-
-                if (oSq.RecordCount > 0)
-                {
-                    var body = new Dictionary<string, string>()
-                    {
-                            { "NidDoc", "" },
-                            { "FolDoc", "" },
-                            { "StaDoc", "ERR" },
-                            { "TexSta",""},
-                            { "UseSer", UseSer},
-                            { "PasSer", PasSer}
-                    };
-
-                    while (oSq.EoF)
-                    {
-
-                        try
-                        {
-                            using (var cliente = new HttpClient())
-                            {
-                                body["NidDoc"] = oSq.Fields.Item(0).Value;
-                                body["FolDoc"] = oSq.Fields.Item(1).Value;
-                                body["TexSta"] = oSq.Fields.Item(2).Value;
-
-                                var request = new HttpRequestMessage()
-                                {
-                                    RequestUri = new Uri(UrlSifac + "ActualizarDocumento"),
-                                    Method = HttpMethod.Post,
-                                    Content = new FormUrlEncodedContent(body)
-                                };
-
-                                var response = cliente.SendAsync(request).Result;
-                                if (response.IsSuccessStatusCode)
-                                {
-                                    WriteToFile($"¡Documento {body["FolDoc"]} fue actualizado a {body["StaDoc"]} exitosamente!");
-                                }
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            WriteToFile("No se pudo actualizar documento: " + e.Message);
-                        }
-
-                    }
-                }
-
-            }
-            catch (Exception e)
-            {
-                WriteToFile(e.Message);
-            }
-
-        }
-
         public static void Connect()
         {
             try
@@ -385,31 +454,34 @@ namespace STR_SIFAC_Creation
                 sboCompany.Password = ConfigurationManager.AppSettings["SAP_PASSWORD"];
                 sboCompany.language = BoSuppLangs.ln_Spanish_La;
 
+                Conexion();
             }
             catch (Exception ex)
             {
                 WriteToFile(ex.Message);
             }
+
         }
-
-
-
         public static void Conexion()
         {
             try
             {
-                if (sboCompany.Connect() != 0)
+                if (!sboCompany.Connected)
                 {
-                    WriteToFile("CONEXION-SAPConnector:" + sboCompany.GetLastErrorDescription());
-                    throw new Exception(Global.sboCompany.GetLastErrorDescription());
-                }
-                else
-                {
-                    WriteToFile("CONEXION EXITOSA");
+                    if (sboCompany.Connect() != 0)
+                    {
+                        WriteToFile("CONEXION-SAPConnector:" + sboCompany.GetLastErrorDescription());
+                        throw new Exception(Global.sboCompany.GetLastErrorDescription());
+                    }
+                    else
+                    {
+                        WriteToFile("CONEXION EXITOSA");
 
-                    oSq = sboCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset);
-                    QueryPosition = sboCompany.DbServerType == SAPbobsCOM.BoDataServerTypes.dst_HANADB ? 1 : 0;
+                        oSq = sboCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset);
+                        QueryPosition = sboCompany.DbServerType == SAPbobsCOM.BoDataServerTypes.dst_HANADB ? 1 : 0;
+                    }
                 }
+                
 
             }
             catch (Exception ex)
