@@ -184,7 +184,7 @@ namespace STR_SIFAC_Creation
                                 oDocumento.Lines.CostingCode = null;
                                 oDocumento.Lines.CostingCode2 = null;
 
-                                oDocumento.Lines.DiscountPercent = de.DiscPrnct;
+                                oDocumento.Lines.DiscountPercent = de.DiscPrnct == null ? 0.0 : de.DiscPrnct ;
                                 oDocumento.Lines.UserFields.Fields.Item("U_BPP_OPER").Value = de.U_BPP_OPER;
                                 oDocumento.Lines.UserFields.Fields.Item("U_STR_FECodAfect").Value = Convert.ToString(de.U_STR_FECodAfect);
 
@@ -457,7 +457,7 @@ namespace STR_SIFAC_Creation
                     if (data.FlaSer)
                         return data.DatSer;
                     else
-                        WriteToFile("ERROR: FLASER FALSE");
+                        WriteToFile($"ERROR: {data.LogSer}");
                     throw new Exception();
                 }
             }

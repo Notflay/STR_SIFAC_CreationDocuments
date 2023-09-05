@@ -35,6 +35,6 @@ namespace STR_SIFAC_UTIL.Entity
         [Required]
         public string TaxCode { get; set; }
         public string U_BPP_OPER { get; set; }
-        public int U_STR_FECodAfect { get; set; }
+        public string U_STR_FECodAfect { get; set; }
     }
 }
