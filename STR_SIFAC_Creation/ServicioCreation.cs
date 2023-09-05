@@ -181,7 +181,7 @@ namespace STR_SIFAC_Creation
                                 if (!esServicio)
                                     oDocumento.Lines.COGSAccountCode = QuerySql.CogsAcct(almacenOrg);
 
-                                oDocumento.Lines.TaxCode = de.TaxCode; // IGV - EXO
+                                oDocumento.Lines.TaxCode = de.TaxCode == "IGV" ? "IGV18" : de.TaxCode; // IGV - EXO
                                                                        // oDocumento.Lines.WarehouseCode = almacenOrg;
                                 oDocumento.Lines.LineTotal = de.ImpDet;
                                 oDocumento.Lines.CostingCode = null;
