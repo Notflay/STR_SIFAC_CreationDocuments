@@ -11,6 +11,10 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using static STR_SIFAC_UTIL.Global;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Configuration;
 
 namespace STR_SIFAC_Creation
 {
@@ -22,6 +26,9 @@ namespace STR_SIFAC_Creation
         public static string UseSer { get; set; }
         public static string PasSer { get; set; }
         public static string UrlSifac { get; set; }
+
+        private SqlConnection sqlConnection;
+        public static string sqlQuery { get; set; }
         public ServicioCreation()
         {
             // Se cambia la configuración en App.config de los parametros (Optimiza la consulta)
@@ -31,6 +38,8 @@ namespace STR_SIFAC_Creation
             UseSer = ConfigurationManager.AppSettings["UseSer"].ToString();
             PasSer = ConfigurationManager.AppSettings["PasSer"].ToString();
             UrlSifac = ConfigurationManager.AppSettings["urlSifac"].ToString();
+
+            //sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["sql"].ConnectionString);
         }
         public async Task IntegrarDocumentos()
         {
@@ -46,8 +55,26 @@ namespace STR_SIFAC_Creation
 
                     try
                     {
-                        oSq.DoQuery("SELECT TOP 1 \"WhsCode\" FROM \"OWHS\"");
+                        //string almacenOrg = "";
 
+                        //sqlQuery = "SELECT TOP 1 WhsCode FROM OWHS";
+                        //sqlConnection.Open();
+
+
+                        //using (var cmd = new SqlCommand(sqlQuery, sqlConnection))
+                        //{
+                        //    using (var reader = cmd.ExecuteReader())
+                        //    { 
+                        //        if (reader.HasRows)
+                        //            while (reader.Read())
+                        //            {
+                        //                almacenOrg = reader.GetString(0);
+                        //            }
+                        //    }
+                        //}
+                        //sqlConnection.Close();
+
+                        oSq.DoQuery("SELECT TOP 1 WhsCode FROM OWHS");
                         string almacenOrg = oSq.Fields.Item(0).Value;
 
                         string tipoDoc = QuerySql.GetTipo(d.ClaDoc);
@@ -202,10 +229,8 @@ namespace STR_SIFAC_Creation
             try
             {
 
-                if (sboCompany.DbServerType != BoDataServerTypes.dst_HANADB)
-                    oSq.DoQuery("EXEC STR_Docs_Aceptados_Sifac");
-                else
-                    oSq.DoQuery("CALL STR_Docs_Aceptados_Sifac");
+                oSq.DoQuery($"{(QueryPosition == 0 ? "EXEC" : "CALL")} STR_Docs_Aceptados_Sifac");
+                    
 
                 if (oSq.RecordCount > 0)
                 {
@@ -229,7 +254,7 @@ namespace STR_SIFAC_Creation
                             {
                                 body["NidDoc"] = oSq.Fields.Item(0).Value;
                                 body["FolDoc"] = oSq.Fields.Item(1).Value;
-
+                                
 
                                 var request = new HttpRequestMessage()
                                 {
@@ -238,10 +263,13 @@ namespace STR_SIFAC_Creation
                                     Content = new FormUrlEncodedContent(body)
                                 };
 
+                                // Actualiza el documento en SIFAC a estado ACE
                                 var response = cliente.SendAsync(request).Result;
                                 if (response.IsSuccessStatusCode)
                                 {
-                                    WriteToFile($"¡Documento {body["FolDoc"]} fue actualizado a {body["StaDoc"]} exitosamente!");
+                                    oSq.DoQuery($"{(QueryPosition == 0 ? "EXEC" : "CALL")} Str_Docs_Update_Sifac ACE,{body["NidDoc"]},{oSq.Fields.Item(2).Value}");
+                                  
+                                    WriteToFile($"¡Documento {body["FolDoc"]} fue actualizado a {body["StaDoc"]} exitosamente!");                                                                    
                                 }
                                 else
                                 {
@@ -270,10 +298,8 @@ namespace STR_SIFAC_Creation
         {
             try
             {
-                if (sboCompany.DbServerType != BoDataServerTypes.dst_HANADB)
-                    oSq.DoQuery("EXEC STR_Docs_Rechazados_Sifac");
-                else
-                    oSq.DoQuery("CALL STR_Docs_Rechazados_Sifac");
+
+                oSq.DoQuery($"{(QueryPosition == 0 ? "EXEC" : "CALL")} STR_Docs_Rechazados_Sifac");
 
                 if (oSq.RecordCount > 0)
                 {
@@ -307,6 +333,7 @@ namespace STR_SIFAC_Creation
                                 var response = cliente.SendAsync(request).Result;
                                 if (response.IsSuccessStatusCode)
                                 {
+                                    oSq.DoQuery($"{(QueryPosition == 0 ? "EXEC" : "CALL")} Str_Docs_Update_Sifac ERR,{body["NidDoc"]},{oSq.Fields.Item(3).Value}");
                                     WriteToFile($"¡Documento {body["FolDoc"]} fue actualizado a {body["StaDoc"]} exitosamente!");
                                 }
                                 else {
@@ -336,10 +363,8 @@ namespace STR_SIFAC_Creation
         {
             try
             {
-                if (sboCompany.DbServerType != BoDataServerTypes.dst_HANADB)
-                    oSq.DoQuery("EXEC STR_Docs_Cancelados_Sifac");
-                else
-                    oSq.DoQuery("CALL STR_Docs_Cancelados_Sifac");
+
+                oSq.DoQuery($"{(QueryPosition == 0 ? "EXEC" : "CALL")} STR_Docs_Cancelados_Sifac");
 
                 if (oSq.RecordCount > 0)
                 {
@@ -373,6 +398,8 @@ namespace STR_SIFAC_Creation
                                 var response = cliente.SendAsync(request).Result;
                                 if (response.IsSuccessStatusCode)
                                 {
+                                    oSq.DoQuery($"{(QueryPosition == 0 ? "EXEC" : "CALL")} Str_Docs_Update_Sifac BAJ,{body["NidDoc"]},{oSq.Fields.Item(3).Value}");
+
                                     WriteToFile($"¡Documento {body["FolDoc"]} fue actualizado a {body["StaDoc"]} exitosamente!");
                                 }
                                 else
@@ -490,5 +517,7 @@ namespace STR_SIFAC_Creation
                 WriteToFile("CONEXION :" + ex.Message);
             }
         }
+
+
     }
 }
