@@ -446,7 +446,7 @@ namespace STR_SIFAC_Creation
 
                     var request = new HttpRequestMessage()
                     {
-                        RequestUri = new Uri(UrlSifac + "obtener"),
+                        RequestUri = new Uri(UrlSifac + "ObtenerDocumento"),
                         Method = HttpMethod.Post,
                         Content = new FormUrlEncodedContent(body)
                     };
