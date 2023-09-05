@@ -156,11 +156,12 @@ namespace STR_SIFAC_Creation
                             double total = 0;
                             foreach (usp_sic_EnviarDocumentoDetalle_Sap de in d.DetDoc)
                             {
-                                QuerySql.ValidarExistencia(de.MatDet);
-                                oItem.GetByKey(de.MatDet);
+                                string matDet = string.IsNullOrEmpty(de.MatDet) ? "VPGN00000001" : de.MatDet;
+                                QuerySql.ValidarExistencia(matDet);
+                                oItem.GetByKey(matDet);
 
                                 if (oItem.InventoryItem == BoYesNoEnum.tYES)
-                                    QuerySql.ValidarStock(de.MatDet, almacenOrg, Convert.ToInt32(de.CanDet));
+                                    QuerySql.ValidarStock(matDet, almacenOrg, Convert.ToInt32(de.CanDet));
 
                                 oDocumento.Lines.SetCurrentLine(linea);
 
@@ -170,7 +171,7 @@ namespace STR_SIFAC_Creation
                                 if (!esServicio)
                                     oDocumento.Lines.AccountCode = QuerySql.AccountCode();
 
-                                oDocumento.Lines.ItemCode = string.IsNullOrEmpty(de.MatDet) ? "VPGN00000001" : de.MatDet;
+                                oDocumento.Lines.ItemCode = string.IsNullOrEmpty(matDet) ? "VPGN00000001" : de.MatDet;
                                 oDocumento.Lines.Quantity = Convert.ToDouble(de.CanDet); // Cantidad 
                                 oDocumento.Lines.UnitPrice = de.ImpDet / Convert.ToDouble(de.CanDet);   // Precio Unico cantidad / preciototal
                                 oDocumento.Lines.Price = de.ImpDet;
