@@ -12,7 +12,7 @@ namespace STR_SIFAC_UTIL.Entity
         [MaxLength(20)]
         public string NidDoc { get; set; }
 
-        public string OrdDet { get; set; }
+        public int OrdDet { get; set; }
 
         [MaxLength(18)]
         public string MatDet { get; set; }
