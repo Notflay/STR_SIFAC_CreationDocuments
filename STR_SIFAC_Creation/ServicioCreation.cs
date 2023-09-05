@@ -170,7 +170,7 @@ namespace STR_SIFAC_Creation
                                 if (!esServicio)
                                     oDocumento.Lines.AccountCode = QuerySql.AccountCode();
 
-                                oDocumento.Lines.ItemCode = de.MatDet;
+                                oDocumento.Lines.ItemCode = string.IsNullOrEmpty(de.MatDet) ? "VPGN00000001" : de.MatDet;
                                 oDocumento.Lines.Quantity = Convert.ToDouble(de.CanDet); // Cantidad 
                                 oDocumento.Lines.UnitPrice = de.ImpDet / Convert.ToDouble(de.CanDet);   // Precio Unico cantidad / preciototal
                                 oDocumento.Lines.Price = de.ImpDet;
