@@ -143,7 +143,7 @@ namespace STR_SIFAC_Creation
                             oDocumento.DocDate = Convert.ToDateTime(d.FecDocFac);
                             oDocumento.TaxDate = Convert.ToDateTime(d.FecDocFac);
 
-                            oDocumento.DocDueDate = Convert.ToDateTime(d.FecDocFac).AddDays(Convert.ToInt32(d.ConPag));
+                            oDocumento.DocDueDate = Convert.ToDateTime(d.FecDocFac).AddDays(Convert.ToInt32(d.ConPag.Remove(0,1)));
 
                             oDocumento.Comments = "Documento en estado de pruebas";
 
@@ -184,7 +184,7 @@ namespace STR_SIFAC_Creation
                                 oDocumento.Lines.CostingCode = null;
                                 oDocumento.Lines.CostingCode2 = null;
 
-                                oDocumento.Lines.DiscountPercent = de.DiscPrnct == null ? 0.0 : de.DiscPrnct ;
+                                oDocumento.Lines.DiscountPercent = de.DiscPrnct == null ? 0.0 : de.DiscPrnct;
                                 oDocumento.Lines.UserFields.Fields.Item("U_BPP_OPER").Value = de.U_BPP_OPER;
                                 oDocumento.Lines.UserFields.Fields.Item("U_STR_FECodAfect").Value = Convert.ToString(de.U_STR_FECodAfect);
 
