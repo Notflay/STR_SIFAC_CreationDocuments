@@ -156,7 +156,9 @@ namespace STR_SIFAC_Creation
                             double total = 0;
                             foreach (usp_sic_EnviarDocumentoDetalle_Sap de in d.DetDoc)
                             {
-                                string matDet = string.IsNullOrEmpty(de.MatDet) ? "VPGN00000001" : de.MatDet;
+                                // Cambiar para produccion quitar lo comentado
+                                // string matDet = string.IsNullOrEmpty(de.MatDet) ? "VPGN00000001" : de.MatDet;
+                                string matDet ="VPGN00000001";
                                 QuerySql.ValidarExistencia(matDet);
                                 oItem.GetByKey(matDet);
 
