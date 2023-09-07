@@ -164,11 +164,26 @@ namespace STR_SIFAC_Creation
         {
             try
             {
-                Global.oSq.DoQuery($"SELECT TOP 1 \"U_BPP_NDSD\" FROM \"@BPP_NUMDOC\" WHERE \"U_BPP_NDTD\" = '{tipo}' AND LEFT(\"U_BPP_NDSD\",1) = 'F' ORDER BY CAST(\"Code\" AS INT) DESC");
-                if (Global.oSq.RecordCount > 0)
-                    return Global.oSq.Fields.Item(0).Value;
-                else
-                    throw new Exception("No se encontro niguna serie, registrar en la tabla @BPP_NUMDOC");
+                string idDocumento = "";
+
+                switch (tipo)
+                {
+                    case "01":
+                        idDocumento = ConfigurationManager.AppSettings["idnum_factura"];
+                        Global.oSq.DoQuery($"SELECT  \"U_BPP_NDSD\" FROM \"@BPP_NUMDOC\" WHERE \"Code\" = '{idDocumento}'");
+                        return Global.oSq.Fields.Item(0).Value;
+                    case "07":
+                        idDocumento = ConfigurationManager.AppSettings["idnum_nc"];
+                        Global.oSq.DoQuery($"SELECT  \"U_BPP_NDSD\" FROM \"@BPP_NUMDOC\" WHERE \"Code\" = '{idDocumento}'");
+                        return Global.oSq.Fields.Item(0).Value;
+                    case "08":
+                        idDocumento = ConfigurationManager.AppSettings["idnum_nd"];
+                        Global.oSq.DoQuery($"SELECT  \"U_BPP_NDSD\" FROM \"@BPP_NUMDOC\" WHERE \"Code\" = '{idDocumento}'");
+                        return Global.oSq.Fields.Item(0).Value;
+                    default:
+                        throw new Exception("No se encontro niguna serie, registrar en la tabla @BPP_NUMDOC");
+                }
+                  
             }
             catch (Exception)
             {
