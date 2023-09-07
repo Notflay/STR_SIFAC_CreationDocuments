@@ -114,19 +114,12 @@ namespace STR_SIFAC_Creation
                                 }
                             }
 
-                            oDocumento.CardCode = d.SolDoc $"C{d.SolDoc}";
-
+                            oDocumento.CardCode = QuerySql.GetDocumentId(d.SolDoc);
                             oDocumento.DocDate = Convert.ToDateTime(d.FecDocFac);
                             oDocumento.TaxDate = Convert.ToDateTime(d.FecDocFac);
-
                             oDocumento.DocDueDate = Convert.ToDateTime(d.FecDocFac).AddDays(Convert.ToInt32(d.ConPag.Remove(0,1)));
-
                             oDocumento.Comments = d.NroPedCliente;
-
                             oDocumento.DocTotal = d.MonTotal;
-
-
-
 
                             int linea = 0;
                             double total = 0;
@@ -146,7 +139,7 @@ namespace STR_SIFAC_Creation
                                 bool esServicio = oItem.InventoryItem == BoYesNoEnum.tNO && oItem.SalesItem == BoYesNoEnum.tYES /* &&  oItem.PurchaseItem == BoYesNoEnum.tNO && oItem.GLMethod == BoGLMethods.glm_ItemLevel*/;
 
 
-                                //if (!esServicio)
+                                if (!esServicio)
                                     oDocumento.Lines.AccountCode = QuerySql.AccountCode();
 
                                 oDocumento.Lines.ItemCode = matDet;
@@ -176,8 +169,6 @@ namespace STR_SIFAC_Creation
                                 oDocumento.Lines.UserFields.Fields.Item("U_STR_FECodAfect").Value = Convert.ToString(de.U_STR_FECodAfect);
 
                                 total += de.ImpDet;
-
-
 
                                 oDocumento.Lines.Add();
                                 linea++;

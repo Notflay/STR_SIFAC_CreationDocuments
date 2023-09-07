@@ -41,6 +41,20 @@ namespace STR_SIFAC_Creation
             }
         }
 
+        public static string GetDocumentId(string doc)
+        {
+            try
+            {
+                if (doc.Length < 10)
+                    return $"E{doc}";
+                return $"C{doc}";    
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception(e.Message.ToString());
+            }  
+        }
 
 
         public static void ValidarExistencia(string code)
