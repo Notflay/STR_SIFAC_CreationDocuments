@@ -118,6 +118,10 @@ namespace STR_SIFAC_Creation
                             oDocumento.DocDate = Convert.ToDateTime(d.FecDocFac);
                             oDocumento.TaxDate = Convert.ToDateTime(d.FecDocFac);
                             oDocumento.DocDueDate = Convert.ToDateTime(d.FecDocFac).AddDays(Convert.ToInt32(d.ConPag.Remove(0,1)));
+
+                            if (!string.IsNullOrEmpty(d.MonDoc))
+                                oDocumento.DocCurrency = d.MonDoc == "PEN" ? "SOL" : "USD";  
+
                             oDocumento.Comments = d.NroPedCliente;
                             oDocumento.DocTotal = d.MonTotal;
 
