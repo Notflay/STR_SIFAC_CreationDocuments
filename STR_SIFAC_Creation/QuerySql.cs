@@ -245,12 +245,25 @@ namespace STR_SIFAC_Creation
         {
             try
             {
-                string table = tipoDoc == "07" ? "ORIN" : "OINV";
-                Global.oSq.DoQuery($"SELECT MAX(CAST(\"U_BPP_MDCD\"AS INT)) FROM {table} WHERE \"U_BPP_MDSD\" = '{Serie}'");
-                int correlativo = Global.oSq.RecordCount == 0 ? 1 : Convert.ToInt32(Global.oSq.Fields.Item(0).Value) + 1;
+                string idDocumento = "";
 
-                return Convert.ToString(correlativo);
-
+                switch (tipoDoc)
+                {
+                    case "01":
+                        idDocumento = ConfigurationManager.AppSettings["idnum_factura"];
+                        Global.oSq.DoQuery($"SELECT  \"U_BPP_NDCD\" FROM \"@BPP_NUMDOC\" WHERE \"Code\" = '{idDocumento}'");
+                        return Global.oSq.Fields.Item(0).Value;
+                    case "07":
+                        idDocumento = ConfigurationManager.AppSettings["idnum_nc"];
+                        Global.oSq.DoQuery($"SELECT  \"U_BPP_NDCD\" FROM \"@BPP_NUMDOC\" WHERE \"Code\" = '{idDocumento}'");
+                        return Global.oSq.Fields.Item(0).Value;
+                    case "08":
+                        idDocumento = ConfigurationManager.AppSettings["idnum_nd"];
+                        Global.oSq.DoQuery($"SELECT  \"U_BPP_NDCD\" FROM \"@BPP_NUMDOC\" WHERE \"Code\" = '{idDocumento}'");
+                        return Global.oSq.Fields.Item(0).Value;
+                    default:
+                        throw new Exception("No se encontro nigun correlativo, registrar en la tabla @BPP_NUMDOC");
+                }
             }
             catch (Exception)
             {
@@ -258,8 +271,6 @@ namespace STR_SIFAC_Creation
                 throw;
             }
         }
-
-
 
 
         public static string CogsAcct(string idalmacen)
