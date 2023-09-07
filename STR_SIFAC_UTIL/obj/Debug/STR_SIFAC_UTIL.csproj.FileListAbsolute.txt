@@ -25,3 +25,14 @@ C:\Users\Sebastian\Source\Repos\STR_SIFAC_CreationDocuments\STR_SIFAC_UTIL\obj\D
 C:\Users\Sebastian\Source\Repos\STR_SIFAC_CreationDocuments\STR_SIFAC_UTIL\obj\Debug\STR_SIFAC_UTIL.csproj.CopyComplete
 C:\Users\Sebastian\Source\Repos\STR_SIFAC_CreationDocuments\STR_SIFAC_UTIL\obj\Debug\STR_SIFAC_UTIL.dll
 C:\Users\Sebastian\Source\Repos\STR_SIFAC_CreationDocuments\STR_SIFAC_UTIL\obj\Debug\STR_SIFAC_UTIL.pdb
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\STR_SIFAC_UTIL\bin\Debug\STR_SIFAC_UTIL.dll
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\STR_SIFAC_UTIL\bin\Debug\STR_SIFAC_UTIL.pdb
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\STR_SIFAC_UTIL\bin\Debug\System.ComponentModel.Annotations.dll
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\STR_SIFAC_UTIL\obj\Debug\STR_SIFAC_UTIL.csproj.AssemblyReference.cache
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\STR_SIFAC_UTIL\obj\Debug\Interop.SAPbobsCOM.dll
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\STR_SIFAC_UTIL\obj\Debug\Interop.SAPbouiCOM.dll
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\STR_SIFAC_UTIL\obj\Debug\STR_SIFAC_UTIL.csproj.ResolveComReference.cache
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\STR_SIFAC_UTIL\obj\Debug\STR_SIFAC_UTIL.csproj.CoreCompileInputs.cache
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\STR_SIFAC_UTIL\obj\Debug\STR_SIFAC_UTIL.csproj.CopyComplete
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\STR_SIFAC_UTIL\obj\Debug\STR_SIFAC_UTIL.dll
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\STR_SIFAC_UTIL\obj\Debug\STR_SIFAC_UTIL.pdb

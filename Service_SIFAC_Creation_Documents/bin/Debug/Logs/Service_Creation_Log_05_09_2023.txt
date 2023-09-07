@@ -1,0 +1,38 @@
+05/09/2023 14:24:18 - Se han producido uno o varios errores.
+05/09/2023 14:27:27 - ERROR: FLASER FALSE
+05/09/2023 14:27:27 - Se produjo una excepción de tipo 'System.Exception'.
+05/09/2023 14:50:43 - Se han producido uno o varios errores.
+05/09/2023 14:50:43 - ERROR:Se han producido uno o varios errores.
+05/09/2023 15:38:09 - The JSON value could not be converted to System.Int32. Path: $.DatSer[0].DetDoc[0].U_STR_FECodAfect | LineNumber: 0 | BytePositionInLine: 761.
+05/09/2023 15:38:09 - ERROR:Se han producido uno o varios errores.
+05/09/2023 16:01:21 - CONEXION EXITOSA
+05/09/2023 16:03:20 - CONEXION EXITOSA
+05/09/2023 16:11:22 - CONEXION EXITOSA
+05/09/2023 16:31:23 - CONEXION EXITOSA
+05/09/2023 16:34:20 - CONEXION EXITOSA
+05/09/2023 16:36:39 - CONEXION EXITOSA
+05/09/2023 16:37:27 - Error al crear Factura: Falta el número de artículo; especifique uno
+05/09/2023 16:40:16 - CONEXION EXITOSA
+05/09/2023 16:40:41 - Error al crear Factura: 10000180 - Especifique código de impuestos válido
+05/09/2023 16:46:32 - CONEXION EXITOSA
+05/09/2023 16:46:54 - Error al crear Factura: (1) STR: Ingrese la Localización, Presupuesto y Cuenta Destino (OINV)
+05/09/2023 17:44:01 - CONEXION EXITOSA
+05/09/2023 17:44:21 - Error al crear Factura: (1) STR: Ingrese la Localización, Presupuesto y Cuenta Destino (OINV)
+05/09/2023 17:45:50 - CONEXION EXITOSA
+05/09/2023 17:46:11 - Error al crear Factura: (1) STR: Ingrese la Localización, Presupuesto y Cuenta Destino (OINV)
+05/09/2023 17:54:51 - CONEXION EXITOSA
+05/09/2023 17:56:07 - CONEXION EXITOSA
+05/09/2023 17:57:20 - CONEXION EXITOSA
+05/09/2023 17:58:24 - CONEXION EXITOSA
+05/09/2023 17:58:49 - Error al crear Factura: 10000415 - El valor enlazado 001 no existe
+05/09/2023 18:00:00 - CONEXION EXITOSA
+05/09/2023 18:00:27 - Error al crear Factura: (1) Ingrese: Numero de Contrato
+05/09/2023 18:05:14 - CONEXION EXITOSA
+05/09/2023 18:05:39 - Factura con correlativo 2 creado exitosamente!
+05/09/2023 18:48:39 - CONEXION EXITOSA
+05/09/2023 18:48:51 - Factura con correlativo 3 creado exitosamente!
+05/09/2023 18:53:37 - CONEXION EXITOSA
+05/09/2023 18:53:45 - Factura con correlativo 4 creado exitosamente!
+05/09/2023 18:56:25 - CONEXION EXITOSA
+05/09/2023 18:56:27 - Error: Factura ya fue creado anteriormente FA15815. Enviarlo al proveedor
+05/09/2023 18:57:10 - Factura con correlativo 5 creado exitosamente!

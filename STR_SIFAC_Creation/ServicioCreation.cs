@@ -27,55 +27,31 @@ namespace STR_SIFAC_Creation
         public static string PasSer { get; set; }
         public static string UrlSifac { get; set; }
 
-        private SqlConnection sqlConnection;
         public static string sqlQuery { get; set; }
+        public static string Almacen { get; set; }
         public ServicioCreation()
         {
             // Se cambia la configuración en App.config de los parametros (Optimiza la consulta)
-            OrgVen = ConfigurationManager.AppSettings["OrgVen"].ToString();
+            OrgVen = ConfigurationManager.AppSettings["OrgVen"];
             Year = string.IsNullOrEmpty(ConfigurationManager.AppSettings["year"]) ? DateTime.UtcNow.Year.ToString() : ConfigurationManager.AppSettings["year"];
             Month = string.IsNullOrEmpty(ConfigurationManager.AppSettings["month"]) ? DateTime.UtcNow.Month.ToString() : ConfigurationManager.AppSettings["month"];
-            UseSer = ConfigurationManager.AppSettings["UseSer"].ToString();
-            PasSer = ConfigurationManager.AppSettings["PasSer"].ToString();
-            UrlSifac = ConfigurationManager.AppSettings["urlSifac"].ToString();
-
-            //sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["sql"].ConnectionString);
+            UseSer = ConfigurationManager.AppSettings["UseSer"];
+            PasSer = ConfigurationManager.AppSettings["PasSer"];
+            UrlSifac = ConfigurationManager.AppSettings["urlSifac"];
+            Almacen = ConfigurationManager.AppSettings["almacen"];
         }
         public async Task IntegrarDocumentos()
         {
+            Connect();
 
             List<usp_sic_EnviarDocumento_Sap> data = NewDocuments();
 
             if (data.Count > 0)
-            {
-                Connect();
-
+            {               
                 foreach (usp_sic_EnviarDocumento_Sap d in data)
                 {
-
                     try
                     {
-                        //string almacenOrg = "";
-
-                        //sqlQuery = "SELECT TOP 1 WhsCode FROM OWHS";
-                        //sqlConnection.Open();
-
-
-                        //using (var cmd = new SqlCommand(sqlQuery, sqlConnection))
-                        //{
-                        //    using (var reader = cmd.ExecuteReader())
-                        //    { 
-                        //        if (reader.HasRows)
-                        //            while (reader.Read())
-                        //            {
-                        //                almacenOrg = reader.GetString(0);
-                        //            }
-                        //    }
-                        //}
-                        //sqlConnection.Close();
-
-                        oSq.DoQuery("SELECT TOP 1 WhsCode FROM OWHS");
-                        string almacenOrg = oSq.Fields.Item(0).Value;
 
                         string tipoDoc = QuerySql.GetTipo(d.ClaDoc);
                         string serieDoc = QuerySql.GetSerie(tipoDoc);
@@ -138,14 +114,14 @@ namespace STR_SIFAC_Creation
                                 }
                             }
 
-                            oDocumento.CardCode = $"C{d.SolDoc}";
+                            oDocumento.CardCode = d.SolDoc $"C{d.SolDoc}";
 
                             oDocumento.DocDate = Convert.ToDateTime(d.FecDocFac);
                             oDocumento.TaxDate = Convert.ToDateTime(d.FecDocFac);
 
                             oDocumento.DocDueDate = Convert.ToDateTime(d.FecDocFac).AddDays(Convert.ToInt32(d.ConPag.Remove(0,1)));
 
-                            oDocumento.Comments = "Documento en estado de pruebas";
+                            oDocumento.Comments = d.NroPedCliente;
 
                             oDocumento.DocTotal = d.MonTotal;
 
@@ -163,36 +139,42 @@ namespace STR_SIFAC_Creation
                                 oItem.GetByKey(matDet);
 
                                 if (oItem.InventoryItem == BoYesNoEnum.tYES)
-                                    QuerySql.ValidarStock(matDet, almacenOrg, Convert.ToInt32(de.CanDet));
+                                    QuerySql.ValidarStock(matDet, Almacen, Convert.ToInt32(de.CanDet));
 
                                 oDocumento.Lines.SetCurrentLine(linea);
 
                                 bool esServicio = oItem.InventoryItem == BoYesNoEnum.tNO && oItem.SalesItem == BoYesNoEnum.tYES /* &&  oItem.PurchaseItem == BoYesNoEnum.tNO && oItem.GLMethod == BoGLMethods.glm_ItemLevel*/;
 
 
-                                if (!esServicio)
+                                //if (!esServicio)
                                     oDocumento.Lines.AccountCode = QuerySql.AccountCode();
 
                                 oDocumento.Lines.ItemCode = matDet;
+                                oDocumento.Lines.ItemDescription = de.TexDet;
+
+                                // DATOS DE LOCALIZACION INGRESO COMO CONSTANTE
+                                oDocumento.Lines.CostingCode = "0001";
+                                oDocumento.Lines.CostingCode2 = "400000";
+                                oDocumento.Lines.CostingCode4 = "CO00CM34";
+                                oDocumento.Lines.UserFields.Fields.Item("U_TCH_N_CONT").Value = "01";
+                                //***********************************************************************
+
                                 oDocumento.Lines.Quantity = Convert.ToDouble(de.CanDet); // Cantidad 
-                                oDocumento.Lines.UnitPrice = de.ImpDet / Convert.ToDouble(de.CanDet);   // Precio Unico cantidad / preciototal
-                                oDocumento.Lines.Price = de.ImpDet;
+                                oDocumento.Lines.UnitPrice = de.TaxCode == "EXO" ? de.ImpDet / Convert.ToDouble(de.CanDet)
+                                    : (de.ImpDet / 1.18) / Convert.ToDouble(de.CanDet);   // Precio Unico cantidad 
+                                oDocumento.Lines.Price = de.TaxCode == "EXO" ? de.ImpDet : de.ImpDet / 1.18;
+                                oDocumento.Lines.LineTotal = de.TaxCode == "EXO" ? de.ImpDet : de.ImpDet / 1.18;
 
                                 if (!esServicio)
-                                    oDocumento.Lines.COGSAccountCode = QuerySql.CogsAcct(almacenOrg);
+                                    oDocumento.Lines.COGSAccountCode = QuerySql.CogsAcct(Almacen);
 
                                 oDocumento.Lines.TaxCode = de.TaxCode == "IGV" ? "IGV18" : de.TaxCode; // IGV - EXO
-                                                                       // oDocumento.Lines.WarehouseCode = almacenOrg;
-                                oDocumento.Lines.LineTotal = de.ImpDet;
-                                oDocumento.Lines.CostingCode = null;
-                                oDocumento.Lines.CostingCode2 = null;
-
+                                oDocumento.Lines.WarehouseCode = Almacen;
+                               
                                 oDocumento.Lines.DiscountPercent = de.DiscPrnct == null ? 0.0 : de.DiscPrnct;
                                 oDocumento.Lines.UserFields.Fields.Item("U_BPP_OPER").Value = de.U_BPP_OPER;
                                 oDocumento.Lines.UserFields.Fields.Item("U_STR_FECodAfect").Value = Convert.ToString(de.U_STR_FECodAfect);
 
-                                oDocumento.Lines.CostingCode2 = null;
-                                oDocumento.Lines.CostingCode2 = null;
                                 total += de.ImpDet;
 
 
@@ -212,10 +194,10 @@ namespace STR_SIFAC_Creation
                                 WriteToFile($"Error al crear {documento}: {sboCompany.GetLastErrorDescription()}");
                             }
                         }
-                        else
-                        {
-                            WriteToFile($"Error: {documento} ya fue creado anteriormente {d.NidDoc}. Enviarlo al proveedor");
-                        }
+                        //else
+                        //{
+                        //    WriteToFile($"Error: {documento} ya fue creado anteriormente {d.NidDoc}. Enviarlo al proveedor");
+                        //}
                     }
                     catch (Exception e)
                     {
@@ -227,8 +209,6 @@ namespace STR_SIFAC_Creation
         public async Task IntegrarEnviados()
         {
 
-            if (!sboCompany.Connected)
-                Connect();
             try
             {
 
@@ -475,29 +455,17 @@ namespace STR_SIFAC_Creation
         {
             try
             {
-                sboCompany.Server = ConfigurationManager.AppSettings["SAP_SERVIDOR"];
-                sboCompany.CompanyDB = ConfigurationManager.AppSettings["SAP_BASE"];
-                sboCompany.DbServerType = QuerySql.GetTypeDB(ConfigurationManager.AppSettings["SAP_TIPO_BASE"]);
-                sboCompany.DbUserName = ConfigurationManager.AppSettings["SAP_DBUSUARIO"];
-                sboCompany.DbPassword = ConfigurationManager.AppSettings["SAP_DBPASSWORD"];
-                sboCompany.UserName = ConfigurationManager.AppSettings["SAP_USUARIO"];
-                sboCompany.Password = ConfigurationManager.AppSettings["SAP_PASSWORD"];
-                sboCompany.language = BoSuppLangs.ln_Spanish_La;
-
-                Conexion();
-            }
-            catch (Exception ex)
-            {
-                WriteToFile(ex.Message);
-            }
-
-        }
-        public static void Conexion()
-        {
-            try
-            {
                 if (!sboCompany.Connected)
                 {
+                    sboCompany.Server = ConfigurationManager.AppSettings["SAP_SERVIDOR"];
+                    sboCompany.CompanyDB = ConfigurationManager.AppSettings["SAP_BASE"];
+                    sboCompany.DbServerType = QuerySql.GetTypeDB(ConfigurationManager.AppSettings["SAP_TIPO_BASE"]);
+                    sboCompany.DbUserName = ConfigurationManager.AppSettings["SAP_DBUSUARIO"];
+                    sboCompany.DbPassword = ConfigurationManager.AppSettings["SAP_DBPASSWORD"];
+                    sboCompany.UserName = ConfigurationManager.AppSettings["SAP_USUARIO"];
+                    sboCompany.Password = ConfigurationManager.AppSettings["SAP_PASSWORD"];
+                    sboCompany.language = BoSuppLangs.ln_Spanish_La;
+
                     if (sboCompany.Connect() != 0)
                     {
                         WriteToFile("CONEXION-SAPConnector:" + sboCompany.GetLastErrorDescription());
@@ -510,17 +478,15 @@ namespace STR_SIFAC_Creation
                         oSq = sboCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset);
                         QueryPosition = sboCompany.DbServerType == SAPbobsCOM.BoDataServerTypes.dst_HANADB ? 1 : 0;
                     }
-                }
-                
 
+                };
             }
             catch (Exception ex)
             {
-
                 WriteToFile("CONEXION :" + ex.Message);
             }
+
         }
-
-
+     
     }
 }

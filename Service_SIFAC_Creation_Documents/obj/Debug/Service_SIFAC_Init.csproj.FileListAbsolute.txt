@@ -122,3 +122,47 @@ C:\Users\Sebastian\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creati
 D:\Sebastian Poma\Sifac\Service_SIFAC_Creation_Documents\Service_SIFAC_Creation_Documents\obj\Debug\Service_SIFAC_Creation_Documents.ProjectInstaller.resources
 D:\Sebastian Poma\Sifac\Service_SIFAC_Creation_Documents\Service_SIFAC_Creation_Documents\obj\Debug\Service_SIFAC_Init.csproj.GenerateResource.cache
 D:\Sebastian Poma\Sifac\Service_SIFAC_Creation_Documents\Service_SIFAC_Creation_Documents\obj\Debug\Service_SIFAC_Creation_Documents.Service1.resources
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\bin\Debug\Service_SIFAC_Creation_Documents.exe.config
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\bin\Debug\Service_SIFAC_Creation_Documents.exe
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\bin\Debug\Service_SIFAC_Creation_Documents.pdb
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\bin\Debug\STR_SIFAC_Creation.dll
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\bin\Debug\STR_SIFAC_UTIL.dll
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\bin\Debug\System.Configuration.ConfigurationManager.dll
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\bin\Debug\System.Security.AccessControl.dll
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\bin\Debug\System.Security.Permissions.dll
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\bin\Debug\System.Security.Principal.Windows.dll
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\bin\Debug\System.Text.Json.dll
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\bin\Debug\System.Memory.dll
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\bin\Debug\System.ValueTuple.dll
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\bin\Debug\System.Text.Encodings.Web.dll
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\bin\Debug\System.Numerics.Vectors.dll
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\bin\Debug\System.Threading.Tasks.Extensions.dll
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\bin\Debug\System.Buffers.dll
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\bin\Debug\STR_SIFAC_Creation.pdb
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\bin\Debug\STR_SIFAC_UTIL.pdb
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\bin\Debug\System.Configuration.ConfigurationManager.xml
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\bin\Debug\System.Security.AccessControl.xml
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\bin\Debug\System.Security.Permissions.xml
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\bin\Debug\System.Security.Principal.Windows.xml
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\bin\Debug\System.Text.Json.xml
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\bin\Debug\System.Memory.xml
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\bin\Debug\System.ValueTuple.xml
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\bin\Debug\System.Text.Encodings.Web.xml
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\bin\Debug\System.Numerics.Vectors.xml
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\bin\Debug\System.Threading.Tasks.Extensions.xml
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\bin\Debug\System.Buffers.xml
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\obj\Debug\Service_SIFAC_Init.csproj.AssemblyReference.cache
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\obj\Debug\Interop.SAPbobsCOM.dll
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\obj\Debug\Interop.SAPbouiCOM.dll
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\obj\Debug\Service_SIFAC_Init.csproj.ResolveComReference.cache
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\obj\Debug\Service_SIFAC_Creation_Documents.ProjectInstaller.resources
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\obj\Debug\Service_SIFAC_Creation_Documents.Service1.resources
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\obj\Debug\Service_SIFAC_Init.csproj.GenerateResource.cache
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\obj\Debug\Service_SIFAC_Init.csproj.CoreCompileInputs.cache
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\obj\Debug\Service_SIFAC_Init.csproj.CopyComplete
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\obj\Debug\Service_SIFAC_Creation_Documents.exe
+C:\Users\Admin\Source\Repos\STR_SIFAC_CreationDocuments\Service_SIFAC_Creation_Documents\obj\Debug\Service_SIFAC_Creation_Documents.pdb
