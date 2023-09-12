@@ -120,16 +120,10 @@ namespace STR_SIFAC_Creation
                             oDocumento.DocDueDate = Convert.ToDateTime(d.FecDocFac).AddDays(Convert.ToInt32(d.ConPag.Remove(0,1)));
 
 
-                            string moneda = d.MonDoc == "PEN" ? "SOL" : "USD";
-                            if (!string.IsNullOrEmpty(d.MonDoc))
-                            {
-                                if (moneda == "SOL")
-                                {
-                                    oDocumento.UserFields.Fields.Item("CurSource").Value = "L";
-
-                                }
-                                //oDocumento.DocCurrency = moneda;
-                            }
+                   
+                             if (d.MonDoc != "PEN")                       
+                                oDocumento.DocCurrency = "USD";
+                            
 
 
                             oDocumento.Comments = d.NroPedCliente;
