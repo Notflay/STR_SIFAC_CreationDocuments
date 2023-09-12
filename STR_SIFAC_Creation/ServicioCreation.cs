@@ -122,8 +122,14 @@ namespace STR_SIFAC_Creation
 
                             string moneda = d.MonDoc == "PEN" ? "SOL" : "USD";
                             if (!string.IsNullOrEmpty(d.MonDoc))
-                                oDocumento.DocCurrency = moneda;
+                            {
+                                if (moneda == "SOL")
+                                {
+                                    oDocumento.UserFields.Fields.Item("CurSource").Value = "L";
 
+                                }
+                                //oDocumento.DocCurrency = moneda;
+                            }
 
 
                             oDocumento.Comments = d.NroPedCliente;
