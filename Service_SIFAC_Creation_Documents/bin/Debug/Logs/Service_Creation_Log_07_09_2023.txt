@@ -1,0 +1,10 @@
+07/09/2023 14:42:53 - CONEXION EXITOSA
+07/09/2023 14:43:52 - Factura con correlativo 6 creado exitosamente!
+07/09/2023 16:53:24 - CONEXION EXITOSA
+07/09/2023 16:54:05 - Factura con correlativo 7 creado exitosamente!
+07/09/2023 17:50:44 - CONEXION EXITOSA
+07/09/2023 17:56:57 - CONEXION EXITOSA
+07/09/2023 17:59:36 - CONEXION EXITOSA
+07/09/2023 17:59:56 - Factura con correlativo 8 creado exitosamente!
+07/09/2023 18:00:44 - CONEXION EXITOSA
+07/09/2023 18:00:55 - Factura con correlativo 13935 creado exitosamente!

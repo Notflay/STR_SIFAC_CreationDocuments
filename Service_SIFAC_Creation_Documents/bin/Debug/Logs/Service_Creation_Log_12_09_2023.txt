@@ -1,0 +1,13 @@
+12/09/2023 10:32:04 - CONEXION EXITOSA
+12/09/2023 10:35:20 - CONEXION EXITOSA
+12/09/2023 10:36:11 - CONEXION EXITOSA
+12/09/2023 10:36:12 - Error: El articulo 13-00001371 no está registrado en esta sociedad
+12/09/2023 10:36:14 - Error al crear Nota de Credito: Actualice el tipo de cambio  , 'USD'
+12/09/2023 10:36:15 - Error: El articulo 13-00001371 no está registrado en esta sociedad
+12/09/2023 10:36:19 - Error al crear Nota de debito: Actualice el tipo de cambio  , 'USD'
+12/09/2023 10:36:27 - Error: El articulo 13-00001371 no está registrado en esta sociedad
+12/09/2023 10:36:28 - Error: El articulo 13-00001390 no está registrado en esta sociedad
+12/09/2023 10:36:32 - Error al crear Factura: Código SN no permitido  [OINV.CardCode] , 'E11111'
+12/09/2023 10:36:38 - Error al crear Factura: Código SN no permitido  [OINV.CardCode] , 'E11111'
+12/09/2023 12:27:11 - CONEXION EXITOSA
+12/09/2023 12:29:09 - Error al crear Nota de debito: Actualice el tipo de cambio  , 'USD'

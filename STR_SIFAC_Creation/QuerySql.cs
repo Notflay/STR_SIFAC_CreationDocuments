@@ -35,9 +35,9 @@ namespace STR_SIFAC_Creation
                         throw new ArgumentException($"Tipo de base de datos no válido {db}. Intentar con(HANA,SQL14,SQL16,SQL17)");
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                throw new Exception(e.Message.ToString());
             }
         }
 
@@ -67,9 +67,9 @@ namespace STR_SIFAC_Creation
                     throw new Exception("El articulo " + code + " no está registrado en esta sociedad");
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                throw new Exception(e.Message.ToString());
             }
         }
 
@@ -86,10 +86,10 @@ namespace STR_SIFAC_Creation
                 }
                 return string.Empty;
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
-                throw;
+                throw new Exception(e.Message.ToString());
             }
         }
 
@@ -112,9 +112,9 @@ namespace STR_SIFAC_Creation
                 else
                     throw new Exception("El artículo " + code + " no está asociado al almacen " + codigoAlmacen);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                throw new Exception(e.Message.ToString());
             }
         }
         public static string GetAlmacen(string id)
@@ -130,9 +130,9 @@ namespace STR_SIFAC_Creation
                 else
                     throw new Exception("El almacen " + id + " de BSale no está asociado a ningún almacen en SAP B1");
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                throw new Exception(e.Message.ToString());
             }
         }
 
@@ -154,9 +154,9 @@ namespace STR_SIFAC_Creation
                         throw new Exception("No se encontro el tipo de documento");
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                throw new Exception(e.Message.ToString());
             }
         }
 
@@ -185,10 +185,10 @@ namespace STR_SIFAC_Creation
                 }
                   
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
-                throw;
+                throw new Exception(e.Message.ToString());
             }
         }
 
@@ -199,10 +199,10 @@ namespace STR_SIFAC_Creation
                 Global.oSq.DoQuery("SELECT TOP 1 \"AcctCode\" FROM INV1 ORDER BY \"DocDate\" DESC");
                 return Global.oSq.Fields.Item(0).Value;
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
-                throw;
+                throw new Exception(e.Message.ToString());
             }
         }
 
@@ -217,10 +217,10 @@ namespace STR_SIFAC_Creation
                 return oRs.Fields.Item(0).Value;
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
-                throw;
+                throw new Exception(e.Message.ToString());
             }
         }
         public static bool Validacion(string tipo, string niDoc)
@@ -235,10 +235,10 @@ namespace STR_SIFAC_Creation
                     return false;
                 return true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
-                throw;
+                throw new Exception(e.Message.ToString());
             }
         }
         public static string GetCorrelativo(string Serie, string tipoDoc)
@@ -268,7 +268,6 @@ namespace STR_SIFAC_Creation
             catch (Exception)
             {
                 throw new Exception("No se encontró un correlativo con la serie");
-                throw;
             }
         }
 
@@ -284,10 +283,10 @@ namespace STR_SIFAC_Creation
                 return oRs.Fields.Item(0).Value;
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
-                throw;
+                throw new Exception(e.Message.ToString());
             }
         }
 

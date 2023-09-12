@@ -55,6 +55,7 @@ namespace STR_SIFAC_UTIL.Entity
 
         [MaxLength(13)]
         public string FolioDoc { get; set; }
+        public string FolioDocRef { get; set; }
 
         [MaxLength(2)]
         public string Sector { get; set; }

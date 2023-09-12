@@ -86,8 +86,8 @@ namespace STR_SIFAC_Creation
                             if (tipoDoc == "08" || tipoDoc == "07")
                             {
                                 oDocumento.UserFields.Fields.Item("U_BPP_MDTO").Value = "01";
-                                oDocumento.UserFields.Fields.Item("U_BPP_MDSO").Value = d.FolioDoc.Remove(4);
-                                oDocumento.UserFields.Fields.Item("U_BPP_MDCO").Value = d.FolioDoc.Remove(0, 5);
+                                oDocumento.UserFields.Fields.Item("U_BPP_MDSO").Value = d.FolioDocRef.Remove(4);
+                                oDocumento.UserFields.Fields.Item("U_BPP_MDCO").Value = d.FolioDocRef.Remove(0, 5);
 
                                 oDocumento.UserFields.Fields.Item("U_STR_MtvoCD").Value = $"0{d.MotDoc.Remove(0, 2)}";
 
@@ -119,9 +119,12 @@ namespace STR_SIFAC_Creation
                             oDocumento.TaxDate = Convert.ToDateTime(d.FecDocFac);
                             oDocumento.DocDueDate = Convert.ToDateTime(d.FecDocFac).AddDays(Convert.ToInt32(d.ConPag.Remove(0,1)));
 
+
+                            
                             if (!string.IsNullOrEmpty(d.MonDoc))
                                 oDocumento.DocCurrency = d.MonDoc == "PEN" ? "SOL" : "USD";  
 
+                            
                             oDocumento.Comments = d.NroPedCliente;
                             oDocumento.DocTotal = d.MonTotal;
 
@@ -130,7 +133,7 @@ namespace STR_SIFAC_Creation
                             foreach (usp_sic_EnviarDocumentoDetalle_Sap de in d.DetDoc)
                             {
                                 // Cambiar para produccion quitar lo comentado
-                                // string matDet = string.IsNullOrEmpty(de.MatDet) ? "VPGN00000001" : de.MatDet;
+                                //string matDet = string.IsNullOrEmpty(de.MatDet) ? "VPGN00000001" : de.MatDet;
                                 string matDet ="VPGN00000001";
                                 QuerySql.ValidarExistencia(matDet);
                                 oItem.GetByKey(matDet);
@@ -182,17 +185,27 @@ namespace STR_SIFAC_Creation
 
                             if (oDocumento.Add() == 0)
                             {
-                                WriteToFile($"{documento} con correlativo {correlativoDoc} creado exitosamente!");
+                                int docentry = int.Parse(sboCompany.GetNewObjectKey());
+
+                                Documents oDoc = tipoDoc == "01" ? (Documents)sboCompany.GetBusinessObject(BoObjectTypes.oInvoices) :
+                               tipoDoc == "07" ? (Documents)sboCompany.GetBusinessObject(BoObjectTypes.oCreditNotes) :
+                               (Documents)sboCompany.GetBusinessObject(BoObjectTypes.oInvoices);
+
+                                oDoc.GetByKey(docentry);
+
+                                
+                                WriteToFile($"{documento } {oDoc.UserFields.Fields.Item("U_BPP_MDSD").Value + "-" + oDoc.UserFields.Fields.Item("U_BPP_MDCD").Value} " +
+                                    $"con correlativo {correlativoDoc} creado exitosamente!");
                             }
                             else
                             {
                                 WriteToFile($"Error al crear {documento}: {sboCompany.GetLastErrorDescription()}");
                             }
                         }
-                        //else
-                        //{
-                        //    WriteToFile($"Error: {documento} ya fue creado anteriormente {d.NidDoc}. Enviarlo al proveedor");
-                        //}
+                        else
+                        {
+                            WriteToFile($"Error: {documento} ya fue creado anteriormente {d.NidDoc}. Enviarlo al proveedor");
+                        }
                     }
                     catch (Exception e)
                     {
