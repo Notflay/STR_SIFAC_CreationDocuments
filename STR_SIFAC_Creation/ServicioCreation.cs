@@ -89,7 +89,7 @@ namespace STR_SIFAC_Creation
                                 oDocumento.UserFields.Fields.Item("U_BPP_MDSO").Value = d.FolioDocRef.Remove(4);
                                 oDocumento.UserFields.Fields.Item("U_BPP_MDCO").Value = d.FolioDocRef.Remove(0, 5);
 
-                                oDocumento.UserFields.Fields.Item("U_STR_MtvoCD").Value = $"0{d.MotDoc.Remove(0, 2)}";
+                                oDocumento.UserFields.Fields.Item("U_STR_MtvoCD").Value = d.MotDoc;
 
 
                             };
