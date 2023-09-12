@@ -161,10 +161,18 @@ namespace STR_SIFAC_Creation
                                 //***********************************************************************
 
                                 oDocumento.Lines.Quantity = Convert.ToDouble(de.CanDet); // Cantidad 
+
+                                //oDocumento.Lines.UnitPrice = de.TaxCode == "EXO" ? de.ImpDet / Convert.ToDouble(de.CanDet)
+                                //    : (de.ImpDet / 1.18) / Convert.ToDouble(de.CanDet);   // Precio Unico cantidad 
                                 oDocumento.Lines.UnitPrice = de.TaxCode == "EXO" ? de.ImpDet / Convert.ToDouble(de.CanDet)
-                                    : (de.ImpDet / 1.18) / Convert.ToDouble(de.CanDet);   // Precio Unico cantidad 
-                                oDocumento.Lines.Price = de.TaxCode == "EXO" ? de.ImpDet : de.ImpDet / 1.18;
-                                oDocumento.Lines.LineTotal = de.TaxCode == "EXO" ? de.ImpDet : de.ImpDet / 1.18;
+                                    : de.ImpDet  / Convert.ToDouble(de.CanDet);   // Precio Unico cantidad 
+
+                                //oDocumento.Lines.Price = de.TaxCode == "EXO" ? de.ImpDet : de.ImpDet / 1.18;  // Precio Unitario del producto 
+                                oDocumento.Lines.Price = de.ImpDet / Convert.ToDouble(de.CanDet);  // Precio Unitario del producto 
+
+                                //oDocumento.Lines.LineTotal = de.TaxCode == "EXO" ? de.ImpDet : de.ImpDet / 1.18; // Precio unitario del producto * cantidad 
+                                oDocumento.Lines.LineTotal = de.TaxCode == "EXO" ? de.ImpDet : de.ImpDet; // Precio unitario del producto * cantidad
+                                // oDocumento.Lines.PriceAfterVAT = ''
 
                                 if (!esServicio)
                                     oDocumento.Lines.COGSAccountCode = QuerySql.CogsAcct(Almacen);
@@ -186,17 +194,9 @@ namespace STR_SIFAC_Creation
 
                             if (oDocumento.Add() == 0)
                             {
-                                int docentry = int.Parse(sboCompany.GetNewObjectKey());
-
-                                Documents oDoc = tipoDoc == "01" ? (Documents)sboCompany.GetBusinessObject(BoObjectTypes.oInvoices) :
-                               tipoDoc == "07" ? (Documents)sboCompany.GetBusinessObject(BoObjectTypes.oCreditNotes) :
-                               (Documents)sboCompany.GetBusinessObject(BoObjectTypes.oInvoices);
-
-                                oDoc.GetByKey(docentry);
-
                                 
-                                WriteToFile($"{documento } {oDoc.UserFields.Fields.Item("U_BPP_MDSD").Value + "-" + oDoc.UserFields.Fields.Item("U_BPP_MDCD").Value} " +
-                                    $"con correlativo {correlativoDoc} creado exitosamente!");
+                                WriteToFile($"{documento } {serieDoc + "-" + correlativoDoc} " +
+                                    $"creado exitosamente!");
                             }
                             else
                             {
