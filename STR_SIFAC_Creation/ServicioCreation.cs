@@ -84,14 +84,16 @@ namespace STR_SIFAC_Creation
                             oDocumento.UserFields.Fields.Item("U_STR_FE_FormaPago").Value = string.IsNullOrEmpty(d.ForPago) ? "1" : d.ForPago == "1" ? "1" : "2";
 
                             if (tipoDoc == "08" || tipoDoc == "07")
-                            {
+                            {                                
+                                string serieRef = d.FolioDocRef.Remove(4);
+                                string correlativoRef = d.FolioDocRef.Remove(0, 5);
                                 oDocumento.UserFields.Fields.Item("U_BPP_MDTO").Value = "01";
-                                oDocumento.UserFields.Fields.Item("U_BPP_MDSO").Value = d.FolioDocRef.Remove(4);
-                                oDocumento.UserFields.Fields.Item("U_BPP_MDCO").Value = d.FolioDocRef.Remove(0, 5);
+                                oDocumento.UserFields.Fields.Item("U_BPP_MDSO").Value = serieRef; // serie 
+                                oDocumento.UserFields.Fields.Item("U_BPP_MDCO").Value = correlativoRef; // correlativo
 
                                 oDocumento.UserFields.Fields.Item("U_STR_MtvoCD").Value = d.MotDoc;
 
-
+                                oDocumento.UserFields.Fields.Item("U_BPP_SDocDate").Value = QuerySql.GetDocDateRef(serieRef,correlativoRef);
                             };
 
                             if (oDocumento.UserFields.Fields.Item("U_STR_FE_FormaPago").Value == "2" && tipoDoc == "01")

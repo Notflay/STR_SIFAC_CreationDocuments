@@ -205,7 +205,21 @@ namespace STR_SIFAC_Creation
                 throw new Exception(e.Message.ToString());
             }
         }
+        public static string GetDocDateRef(string serie, string correlativo)
+        {
+            try
+            {
+                Recordset oRs = Global.sboCompany.GetBusinessObject(BoObjectTypes.BoRecordset);
+                string query = $"SELECT TOP 1 \"DocDate\" FROM OINV WHERE \"U_BPP_MDSD\" = '{serie}' AND \"U_BPP_MDCD\" = '{correlativo}'";
+                oRs.DoQuery(query);
+                return oRs.Fields.Item(0).Value;
 
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"No se encontro factura de referencia {serie + "-" +correlativo}");
+            }
+        }
         public static string AccountCode()
         {
             try
