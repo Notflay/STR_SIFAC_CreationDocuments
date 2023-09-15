@@ -15,7 +15,7 @@ namespace STR_SIFAC_UTIL
         public static SAPbobsCOM.SBObob sboBob;
 
         public static SAPbobsCOM.Recordset oSq;
-
+        public static SAPbobsCOM.Recordset oHq;
 
         public static int QueryPosition;
         public static void WriteToFile(string Message)
