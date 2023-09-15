@@ -231,10 +231,10 @@ namespace STR_SIFAC_Creation
             {
 
                 oSq.DoQuery($"{(QueryPosition == 0 ? "EXEC" : "CALL")} STR_Docs_Aceptados_Sifac");
-                    
 
 
 
+                int recor = oSq.RecordCount;
                 if (oSq.RecordCount > 0)
                 {
 
@@ -249,7 +249,7 @@ namespace STR_SIFAC_Creation
                     };
 
 
-                    for (int i = 0; i < oSq.RecordCount; i++)
+                    for (int i = 0; i < recor; i++)
                     {
                         try
                         {
@@ -287,7 +287,7 @@ namespace STR_SIFAC_Creation
                         }
                         finally
                         {
-                            if (i < oSq.RecordCount - 1)
+                            if (i < recor)
                                 oSq.MoveNext();
                         }
                     }
