@@ -132,7 +132,7 @@ namespace STR_SIFAC_Creation
 
 
                    
-                             //if (d.MonDoc != "PEN")                       
+                             if (d.MonDoc != "PEN")                       
                                 oDocumento.DocCurrency = "USD";
                             
                              
