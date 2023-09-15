@@ -132,10 +132,10 @@ namespace STR_SIFAC_Creation
 
 
                    
-                             if (d.MonDoc != "PEN")                       
+                             //if (d.MonDoc != "PEN")                       
                                 oDocumento.DocCurrency = "USD";
                             
-
+                             
 
                             oDocumento.Comments = d.NroPedCliente;
                             oDocumento.DocTotal = d.MonTotal;
@@ -285,6 +285,8 @@ namespace STR_SIFAC_Creation
                                 }
                                 else
                                 {
+                                    oHq.DoQuery($"{(QueryPosition == 0 ? "EXEC" : "CALL")} Str_Docs_Update_Sifac INV,{body["NidDoc"]},{oSq.Fields.Item(3).Value}");
+
                                     WriteToFile($"Error - Servicio (ActualizarDocumento): {body["NidDoc"]} " + response.LogSer + " Se actualizará estado en sap a INV, actualizar manualmente para volver a enviar.");
                                 }
                             }
@@ -350,6 +352,8 @@ namespace STR_SIFAC_Creation
                                     WriteToFile($"Servicio (ActualizarDocumento): ¡Documento {body["FolDoc"]} fue actualizado a {body["StaDoc"]} exitosamente!");
                                 }
                                 else {
+                                    oHq.DoQuery($"{(QueryPosition == 0 ? "EXEC" : "CALL")} Str_Docs_Update_Sifac INV,{body["NidDoc"]},{oSq.Fields.Item(3).Value}");
+
                                     WriteToFile($"Error - Servicio (ActualizarDocumento): {body["NidDoc"]} " + response.LogSer + " Se actualizará estado en sap a INV, actualizar manualmente para volver a enviar.");
                                 }
                             }
