@@ -128,7 +128,7 @@ namespace STR_SIFAC_Creation
                 if (oRs.RecordCount > 0)
                     return oRs.Fields.Item(0).Value;
                 else
-                    throw new Exception("El almacen " + id + " de BSale no está asociado a ningún almacen en SAP B1");
+                    throw new Exception("El almacen " + id + "  no está asociado a ningún almacen en SAP B1");
             }
             catch (Exception e)
             {

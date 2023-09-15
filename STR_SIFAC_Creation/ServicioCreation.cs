@@ -29,6 +29,7 @@ namespace STR_SIFAC_Creation
 
         public static string sqlQuery { get; set; }
         public static string Almacen { get; set; }
+        public static bool Pruebas { get; set; }
         public ServicioCreation()
         {
             // Se cambia la configuración en App.config de los parametros (Optimiza la consulta)
@@ -39,6 +40,7 @@ namespace STR_SIFAC_Creation
             PasSer = ConfigurationManager.AppSettings["PasSer"];
             UrlSifac = ConfigurationManager.AppSettings["urlSifac"];
             Almacen = ConfigurationManager.AppSettings["almacen"];
+            Pruebas = string.IsNullOrEmpty(ConfigurationManager.AppSettings["PRUEBAS"]) ? false : ConfigurationManager.AppSettings["PRUEBAS"] == "1" ? true : false; 
         }
         public async Task IntegrarDocumentos()
         {
@@ -135,9 +137,10 @@ namespace STR_SIFAC_Creation
                             double total = 0;
                             foreach (usp_sic_EnviarDocumentoDetalle_Sap de in d.DetDoc)
                             {
-                                // Cambiar para produccion quitar lo comentado
-                                //string matDet = string.IsNullOrEmpty(de.MatDet) ? "VPGN00000001" : de.MatDet;
-                                string matDet ="VPGN00000001";
+                                // Cambiar estado si ya no esta en pruebas
+       
+                                string matDet = Pruebas ? "VPGN00000001" : de.MatDet;
+          
                                 QuerySql.ValidarExistencia(matDet);
                                 oItem.GetByKey(matDet);
 
@@ -157,23 +160,27 @@ namespace STR_SIFAC_Creation
 
                                 // DATOS DE LOCALIZACION INGRESO COMO CONSTANTE
                                 oDocumento.Lines.CostingCode = "0001";
+
+                                //******** Los datos de abajo van a cambiar **************//
                                 oDocumento.Lines.CostingCode2 = "400000";
                                 oDocumento.Lines.CostingCode4 = "CO00CM34";
+                                //*********************************************
                                 oDocumento.Lines.UserFields.Fields.Item("U_TCH_N_CONT").Value = "01";
-                                //***********************************************************************
+
 
                                 oDocumento.Lines.Quantity = Convert.ToDouble(de.CanDet); // Cantidad 
 
-                                //oDocumento.Lines.UnitPrice = de.TaxCode == "EXO" ? de.ImpDet / Convert.ToDouble(de.CanDet)
-                                //    : (de.ImpDet / 1.18) / Convert.ToDouble(de.CanDet);   // Precio Unico cantidad 
                                 oDocumento.Lines.UnitPrice = de.TaxCode == "EXO" ? de.ImpDet / Convert.ToDouble(de.CanDet)
-                                    : de.ImpDet  / Convert.ToDouble(de.CanDet);   // Precio Unico cantidad 
+                                    : (de.ImpDet / 1.18) / Convert.ToDouble(de.CanDet);   // Precio Unico cantidad 
+                                //oDocumento.Lines.UnitPrice = de.TaxCode == "EXO" ? de.ImpDet / Convert.ToDouble(de.CanDet)
+                                //    : de.ImpDet  / Convert.ToDouble(de.CanDet);   // Precio Unico cantidad 
 
-                                //oDocumento.Lines.Price = de.TaxCode == "EXO" ? de.ImpDet : de.ImpDet / 1.18;  // Precio Unitario del producto 
-                                oDocumento.Lines.Price = de.ImpDet / Convert.ToDouble(de.CanDet);  // Precio Unitario del producto 
+                                oDocumento.Lines.Price = de.TaxCode == "EXO" ? de.ImpDet : 
+                                    (de.ImpDet / 1.18) / Convert.ToDouble(de.CanDet);  // Precio Unitario del producto 
+                                //oDocumento.Lines.Price = de.ImpDet / Convert.ToDouble(de.CanDet);  // Precio Unitario del producto 
 
-                                //oDocumento.Lines.LineTotal = de.TaxCode == "EXO" ? de.ImpDet : de.ImpDet / 1.18; // Precio unitario del producto * cantidad 
-                                oDocumento.Lines.LineTotal = de.TaxCode == "EXO" ? de.ImpDet : de.ImpDet; // Precio unitario del producto * cantidad
+                                oDocumento.Lines.LineTotal = de.TaxCode == "EXO" ? de.ImpDet : de.ImpDet / 1.18; // Precio unitario del producto * cantidad 
+                                //oDocumento.Lines.LineTotal = de.TaxCode == "EXO" ? de.ImpDet : de.ImpDet; // Precio unitario del producto * cantidad
                                 // oDocumento.Lines.PriceAfterVAT = ''
 
                                 if (!esServicio)
