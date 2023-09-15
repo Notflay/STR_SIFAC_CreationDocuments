@@ -285,7 +285,7 @@ namespace STR_SIFAC_Creation
                                 }
                                 else
                                 {
-                                    WriteToFile($"Error - Servicio (ActualizarDocumento): {body["NidDoc"]} " + response.LogSer);
+                                    WriteToFile($"Error - Servicio (ActualizarDocumento): {body["NidDoc"]} " + response.LogSer + " Se actualizará estado en sap a INV, actualizar manualmente para volver a enviar.");
                                 }
                             }
 
@@ -350,7 +350,7 @@ namespace STR_SIFAC_Creation
                                     WriteToFile($"Servicio (ActualizarDocumento): ¡Documento {body["FolDoc"]} fue actualizado a {body["StaDoc"]} exitosamente!");
                                 }
                                 else {
-                                    WriteToFile($"Error - Servicio (ActualizarDocumento): {body["NidDoc"]} " + response.LogSer);
+                                    WriteToFile($"Error - Servicio (ActualizarDocumento): {body["NidDoc"]} " + response.LogSer + " Se actualizará estado en sap a INV, actualizar manualmente para volver a enviar.");
                                 }
                             }
                         }
@@ -417,7 +417,10 @@ namespace STR_SIFAC_Creation
                                 }
                                 else
                                 {
-                                    WriteToFile($"Error - Servicio (ActualizarDocumento): {body["NidDoc"]} " + response.LogSer);
+
+                                    oHq.DoQuery($"{(QueryPosition == 0 ? "EXEC" : "CALL")} Str_Docs_Update_Sifac INV,{body["NidDoc"]},{oSq.Fields.Item(3).Value}");
+
+                                    WriteToFile($"Error - Servicio (ActualizarDocumento): {body["NidDoc"]} " + response.LogSer + " Se actualizará estado en sap a INV, actualizar manualmente para volver a enviar.");
                                 }
                             }
                         }
