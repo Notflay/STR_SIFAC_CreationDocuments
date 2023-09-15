@@ -269,8 +269,8 @@ namespace STR_SIFAC_Creation
                                 };
 
                                 // Actualiza el documento en SIFAC a estado ACE
-                                var response = cliente.SendAsync(request).Result;
-                                if (response.IsSuccessStatusCode)
+                                ResObtener response = JsonSerializer.Deserialize<ResObtener>(cliente.SendAsync(request).Result.Content.ReadAsStringAsync().Result);
+                                if (response.FlaSer)
                                 {
                                     oHq.DoQuery($"{(QueryPosition == 0 ? "EXEC" : "CALL")} Str_Docs_Update_Sifac ACE,{body["NidDoc"]},{oSq.Fields.Item(2).Value}");
 
@@ -278,7 +278,7 @@ namespace STR_SIFAC_Creation
                                 }
                                 else
                                 {
-                                    WriteToFile("No se pudo actualizar documento: " + response.Content.ReadAsStringAsync().Result);
+                                    WriteToFile("No se pudo actualizar documento: " + response.LogSer);
                                 }
                             }
 
@@ -336,14 +336,14 @@ namespace STR_SIFAC_Creation
                                     Content = new FormUrlEncodedContent(body)
                                 };
 
-                                var response = cliente.SendAsync(request).Result;
-                                if (response.IsSuccessStatusCode)
+                                ResObtener response = JsonSerializer.Deserialize<ResObtener>(cliente.SendAsync(request).Result.Content.ReadAsStringAsync().Result);
+                                if (response.FlaSer)
                                 {
                                     oHq.DoQuery($"{(QueryPosition == 0 ? "EXEC" : "CALL")} Str_Docs_Update_Sifac ERR,{body["NidDoc"]},{oSq.Fields.Item(3).Value}");
                                     WriteToFile($"¡Documento {body["FolDoc"]} fue actualizado a {body["StaDoc"]} exitosamente!");
                                 }
                                 else {
-                                    WriteToFile("No se pudo actualizar documento: " + response.Content.ReadAsStringAsync().Result);
+                                    WriteToFile("No se pudo actualizar documento: " + response.LogSer);
                                 }
                             }
                         }
@@ -401,8 +401,8 @@ namespace STR_SIFAC_Creation
                                     Content = new FormUrlEncodedContent(body)
                                 };
 
-                                var response = cliente.SendAsync(request).Result;
-                                if (response.IsSuccessStatusCode)
+                                ResObtener response = JsonSerializer.Deserialize<ResObtener>(cliente.SendAsync(request).Result.Content.ReadAsStringAsync().Result);
+                                if (response.FlaSer)
                                 {
                                     oHq.DoQuery($"{(QueryPosition == 0 ? "EXEC" : "CALL")} Str_Docs_Update_Sifac BAJ,{body["NidDoc"]},{oSq.Fields.Item(3).Value}");
 
@@ -410,7 +410,7 @@ namespace STR_SIFAC_Creation
                                 }
                                 else
                                 {
-                                    WriteToFile("No se pudo actualizar documento: " + response.Content.ReadAsStringAsync().Result);
+                                    WriteToFile("No se pudo actualizar documento: " + response.LogSer);
                                 }
                             }
                         }
