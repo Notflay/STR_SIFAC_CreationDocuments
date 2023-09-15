@@ -205,7 +205,7 @@ namespace STR_SIFAC_Creation
                 throw new Exception(e.Message.ToString());
             }
         }
-        public static string GetDocDateRef(string serie, string correlativo)
+        public static DateTime GetDocDateRef(string serie, string correlativo)
         {
             try
             {
