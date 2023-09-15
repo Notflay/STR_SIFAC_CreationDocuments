@@ -32,15 +32,22 @@ namespace STR_SIFAC_Creation
         public static bool Pruebas { get; set; }
         public ServicioCreation()
         {
-            // Se cambia la configuración en App.config de los parametros (Optimiza la consulta)
-            OrgVen = ConfigurationManager.AppSettings["OrgVen"];
-            Year = string.IsNullOrEmpty(ConfigurationManager.AppSettings["year"]) ? DateTime.UtcNow.Year.ToString() : ConfigurationManager.AppSettings["year"];
-            Month = string.IsNullOrEmpty(ConfigurationManager.AppSettings["month"]) ? DateTime.UtcNow.Month.ToString() : ConfigurationManager.AppSettings["month"];
-            UseSer = ConfigurationManager.AppSettings["UseSer"];
-            PasSer = ConfigurationManager.AppSettings["PasSer"];
-            UrlSifac = ConfigurationManager.AppSettings["urlSifac"];
-            Almacen = ConfigurationManager.AppSettings["almacen"];
-            Pruebas = string.IsNullOrEmpty(ConfigurationManager.AppSettings["PRUEBAS"]) ? false : ConfigurationManager.AppSettings["PRUEBAS"] == "1" ? true : false; 
+            try
+            {
+                // Se cambia la configuración en App.config de los parametros (Optimiza la consulta)
+                OrgVen = ConfigurationManager.AppSettings["OrgVen"];
+                Year = string.IsNullOrEmpty(ConfigurationManager.AppSettings["year"]) ? DateTime.UtcNow.Year.ToString() : ConfigurationManager.AppSettings["year"];
+                Month = string.IsNullOrEmpty(ConfigurationManager.AppSettings["month"]) ? DateTime.UtcNow.Month.ToString() : ConfigurationManager.AppSettings["month"];
+                UseSer = ConfigurationManager.AppSettings["UseSer"];
+                PasSer = ConfigurationManager.AppSettings["PasSer"];
+                UrlSifac = ConfigurationManager.AppSettings["urlSifac"];
+                Almacen = ConfigurationManager.AppSettings["almacen"];
+                Pruebas = string.IsNullOrEmpty(ConfigurationManager.AppSettings["PRUEBAS"]) ? false : ConfigurationManager.AppSettings["PRUEBAS"] == "1" ? true : false;
+            }
+            catch (Exception e)
+            {
+                WriteToFile($"Error - Servicio: " + e.Message.ToString());
+            }
         }
         public async Task IntegrarDocumentos()
         {
@@ -204,22 +211,22 @@ namespace STR_SIFAC_Creation
                             if (oDocumento.Add() == 0)
                             {
                                 
-                                WriteToFile($"{documento } {serieDoc + "-" + correlativoDoc} " +
+                                WriteToFile($"Servicio - (ObtenerDocumento): {documento } {serieDoc + "-" + correlativoDoc} " +
                                     $"creado exitosamente!");
                             }
                             else
                             {
-                                WriteToFile($"Error al crear {documento}: {sboCompany.GetLastErrorDescription()}");
+                                WriteToFile($"Error - Servicio (ObtenerDocumento): {documento} {sboCompany.GetLastErrorDescription()}");
                             }
                         }
                         else
                         {
-                            WriteToFile($"Error: {documento} ya fue creado anteriormente {d.NidDoc}. Enviarlo al proveedor");
+                            WriteToFile($"Error - Servicio (ObtenerDocumento): {documento} ya fue creado anteriormente {d.NidDoc}. Enviarlo al proveedor");
                         }
                     }
                     catch (Exception e)
                     {
-                        WriteToFile($"Error: {e.Message}");
+                        WriteToFile($"Error - Servicio (ObtenerDocumento): {e.Message}");
                     }
                 }
             }
@@ -274,18 +281,18 @@ namespace STR_SIFAC_Creation
                                 {
                                     oHq.DoQuery($"{(QueryPosition == 0 ? "EXEC" : "CALL")} Str_Docs_Update_Sifac ACE,{body["NidDoc"]},{oSq.Fields.Item(2).Value}");
 
-                                    WriteToFile($"¡Documento {body["FolDoc"]} fue actualizado a {body["StaDoc"]} exitosamente!");
+                                    WriteToFile($"Servicio (ActualizarDocumento): ¡Documento {body["FolDoc"]} fue actualizado a {body["StaDoc"]} exitosamente!");
                                 }
                                 else
                                 {
-                                    WriteToFile("No se pudo actualizar documento: " + response.LogSer);
+                                    WriteToFile($"Error - Servicio (ActualizarDocumento): {body["NidDoc"]} " + response.LogSer);
                                 }
                             }
 
                         }
                         catch (Exception e)
                         {
-                            WriteToFile("Error al actualizar documento: " + e.Message);
+                            WriteToFile("Error - Servicio (ActualizarDocumento): " + e.Message);
                         }
                         finally
                         {
@@ -340,16 +347,16 @@ namespace STR_SIFAC_Creation
                                 if (response.FlaSer)
                                 {
                                     oHq.DoQuery($"{(QueryPosition == 0 ? "EXEC" : "CALL")} Str_Docs_Update_Sifac ERR,{body["NidDoc"]},{oSq.Fields.Item(3).Value}");
-                                    WriteToFile($"¡Documento {body["FolDoc"]} fue actualizado a {body["StaDoc"]} exitosamente!");
+                                    WriteToFile($"Servicio (ActualizarDocumento): ¡Documento {body["FolDoc"]} fue actualizado a {body["StaDoc"]} exitosamente!");
                                 }
                                 else {
-                                    WriteToFile("No se pudo actualizar documento: " + response.LogSer);
+                                    WriteToFile($"Error - Servicio (ActualizarDocumento): {body["NidDoc"]} " + response.LogSer);
                                 }
                             }
                         }
                         catch (Exception e)
                         {
-                            WriteToFile("No se pudo actualizar documento: " + e.Message);
+                            WriteToFile("Error - Servicio (ActualizarDocumento): " + e.Message);
                         }
                         finally {
                             oSq.MoveNext();
@@ -406,17 +413,17 @@ namespace STR_SIFAC_Creation
                                 {
                                     oHq.DoQuery($"{(QueryPosition == 0 ? "EXEC" : "CALL")} Str_Docs_Update_Sifac BAJ,{body["NidDoc"]},{oSq.Fields.Item(3).Value}");
 
-                                    WriteToFile($"¡Documento {body["FolDoc"]} fue actualizado a {body["StaDoc"]} exitosamente!");
+                                    WriteToFile($"Servicio (ActualizarDocumento): ¡Documento {body["FolDoc"]} fue actualizado a {body["StaDoc"]} exitosamente!");
                                 }
                                 else
                                 {
-                                    WriteToFile("No se pudo actualizar documento: " + response.LogSer);
+                                    WriteToFile($"Error - Servicio (ActualizarDocumento): {body["NidDoc"]} " + response.LogSer);
                                 }
                             }
                         }
                         catch (Exception e)
                         {
-                            WriteToFile("No se pudo actualizar documento: " + e.Message);
+                            WriteToFile("Error - Servicio (ActualizarDocumento): " + e.Message);
                         }
                         finally
                         {
@@ -463,7 +470,7 @@ namespace STR_SIFAC_Creation
                     if (data.FlaSer)
                         return data.DatSer;
                     else
-                        WriteToFile($"ERROR: {data.LogSer}");
+                        WriteToFile($"Error - Servicio (ObtenerDocumento): {data.LogSer}");
                     throw new Exception();
                 }
             }
@@ -496,7 +503,7 @@ namespace STR_SIFAC_Creation
                     }
                     else
                     {
-                        WriteToFile("CONEXION EXITOSA");
+                        WriteToFile("Conexion Exitosa");
 
                         oSq = sboCompany.GetBusinessObject(BoObjectTypes.BoRecordset);
                         oHq = sboCompany.GetBusinessObject(BoObjectTypes.BoRecordset);
@@ -507,7 +514,7 @@ namespace STR_SIFAC_Creation
             }
             catch (Exception ex)
             {
-                WriteToFile("CONEXION :" + ex.Message);
+                WriteToFile("Conexion :" + ex.Message);
             }
 
         }
