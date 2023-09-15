@@ -233,6 +233,8 @@ namespace STR_SIFAC_Creation
                 oSq.DoQuery($"{(QueryPosition == 0 ? "EXEC" : "CALL")} STR_Docs_Aceptados_Sifac");
                     
 
+
+
                 if (oSq.RecordCount > 0)
                 {
 
@@ -246,6 +248,48 @@ namespace STR_SIFAC_Creation
                             { "PasSer", PasSer}
                     };
 
+
+                    for (int i = 0; i < oSq.RecordCount - 1; i++)
+                    {
+                        try
+                        {
+                            using (var cliente = new HttpClient())
+                            {
+                                body["NidDoc"] = oSq.Fields.Item(0).Value;
+                                body["FolDoc"] = oSq.Fields.Item(1).Value;
+
+
+                                var request = new HttpRequestMessage()
+                                {
+                                    RequestUri = new Uri(UrlSifac + "ActualizarDocumento"),
+                                    Method = HttpMethod.Post,
+                                    Content = new FormUrlEncodedContent(body)
+                                };
+
+                                // Actualiza el documento en SIFAC a estado ACE
+                                var response = cliente.SendAsync(request).Result;
+                                if (response.IsSuccessStatusCode)
+                                {
+                                    oSq.DoQuery($"{(QueryPosition == 0 ? "EXEC" : "CALL")} Str_Docs_Update_Sifac ACE,{body["NidDoc"]},{oSq.Fields.Item(2).Value}");
+
+                                    WriteToFile($"¡Documento {body["FolDoc"]} fue actualizado a {body["StaDoc"]} exitosamente!");
+                                }
+                                else
+                                {
+                                    WriteToFile("No se pudo actualizar documento: " + response.Content.ReadAsStringAsync().Result);
+                                }
+                            }
+
+                        }
+                        catch (Exception e)
+                        {
+                            WriteToFile("Error al actualizar documento: " + e.Message);
+                        }
+                        finally
+                        {
+                            oSq.MoveNext();
+                        }
+                    }
 
                     while(!oSq.EoF)
                     {
