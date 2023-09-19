@@ -56,7 +56,7 @@ namespace STR_SIFAC_Creation
             List<usp_sic_EnviarDocumento_Sap> data = NewDocuments();
 
             if (data.Count > 0)
-            {               
+            {
                 foreach (usp_sic_EnviarDocumento_Sap d in data)
                 {
                     try
@@ -93,7 +93,7 @@ namespace STR_SIFAC_Creation
                             oDocumento.UserFields.Fields.Item("U_STR_FE_FormaPago").Value = string.IsNullOrEmpty(d.ForPago) ? "1" : d.ForPago == "1" ? "1" : "2";
 
                             if (tipoDoc == "08" || tipoDoc == "07")
-                            {                                
+                            {
                                 string serieRef = d.FolioDocRef.Remove(4);
                                 string correlativoRef = d.FolioDocRef.Remove(0, 5);
                                 oDocumento.UserFields.Fields.Item("U_BPP_MDTO").Value = "01";
@@ -102,7 +102,7 @@ namespace STR_SIFAC_Creation
 
                                 oDocumento.UserFields.Fields.Item("U_STR_MtvoCD").Value = d.MotDoc;
 
-                                oDocumento.UserFields.Fields.Item("U_BPP_SDocDate").Value = QuerySql.GetDocDateRef(serieRef,correlativoRef);
+                                oDocumento.UserFields.Fields.Item("U_BPP_SDocDate").Value = QuerySql.GetDocDateRef(serieRef, correlativoRef);
                             };
 
                             if (oDocumento.UserFields.Fields.Item("U_STR_FE_FormaPago").Value == "2" && tipoDoc == "01")
@@ -128,14 +128,14 @@ namespace STR_SIFAC_Creation
                             oDocumento.CardCode = QuerySql.GetDocumentId(d.SolDoc);
                             oDocumento.DocDate = Convert.ToDateTime(d.FecDocFac);
                             oDocumento.TaxDate = Convert.ToDateTime(d.FecDocFac);
-                            oDocumento.DocDueDate = Convert.ToDateTime(d.FecDocFac).AddDays(Convert.ToInt32(d.ConPag.Remove(0,1)));
+                            oDocumento.DocDueDate = Convert.ToDateTime(d.FecDocFac).AddDays(Convert.ToInt32(d.ConPag.Remove(0, 1)));
 
 
-                   
-                             if (d.MonDoc != "PEN")                       
+
+                            if (d.MonDoc != "PEN")
                                 oDocumento.DocCurrency = "USD";
-                            
-                             
+
+
 
                             oDocumento.Comments = d.NroPedCliente;
                             oDocumento.DocTotal = d.MonTotal;
@@ -145,9 +145,9 @@ namespace STR_SIFAC_Creation
                             foreach (usp_sic_EnviarDocumentoDetalle_Sap de in d.DetDoc)
                             {
                                 // Cambiar estado si ya no esta en pruebas
-       
+
                                 string matDet = Pruebas ? "VPGN00000001" : de.MatDet;
-          
+
                                 QuerySql.ValidarExistencia(matDet);
                                 oItem.GetByKey(matDet);
 
@@ -170,7 +170,7 @@ namespace STR_SIFAC_Creation
 
                                 //******** Los datos de abajo van a cambiar **************//
                                 oDocumento.Lines.CostingCode2 = "400000"; // 400000 CONSTANTE
-                                oDocumento.Lines.CostingCode4 = "CO00CM34";
+                                oDocumento.Lines.CostingCode4 = QuerySql.GetCentCosto(oDocumento.CardCode);
                                 //*********************************************
                                 oDocumento.Lines.UserFields.Fields.Item("U_TCH_N_CONT").Value = "01";
 
@@ -182,7 +182,7 @@ namespace STR_SIFAC_Creation
                                 //oDocumento.Lines.UnitPrice = de.TaxCode == "EXO" ? de.ImpDet / Convert.ToDouble(de.CanDet)
                                 //    : de.ImpDet  / Convert.ToDouble(de.CanDet);   // Precio Unico cantidad 
 
-                                oDocumento.Lines.Price = de.TaxCode == "EXO" ? de.ImpDet : 
+                                oDocumento.Lines.Price = de.TaxCode == "EXO" ? de.ImpDet :
                                     (de.ImpDet / 1.18) / Convert.ToDouble(de.CanDet);  // Precio Unitario del producto 
                                 //oDocumento.Lines.Price = de.ImpDet / Convert.ToDouble(de.CanDet);  // Precio Unitario del producto 
 
@@ -195,7 +195,7 @@ namespace STR_SIFAC_Creation
 
                                 oDocumento.Lines.TaxCode = de.TaxCode == "IGV" ? "IGV18" : de.TaxCode; // IGV - EXO
                                 oDocumento.Lines.WarehouseCode = Almacen;
-                               
+
                                 oDocumento.Lines.DiscountPercent = de.DiscPrnct == null ? 0.0 : de.DiscPrnct;
                                 oDocumento.Lines.UserFields.Fields.Item("U_BPP_OPER").Value = de.U_BPP_OPER;
                                 oDocumento.Lines.UserFields.Fields.Item("U_STR_FECodAfect").Value = Convert.ToString(de.U_STR_FECodAfect);
@@ -210,8 +210,8 @@ namespace STR_SIFAC_Creation
 
                             if (oDocumento.Add() == 0)
                             {
-                                
-                                WriteToFile($"Servicio - (ObtenerDocumento): {documento } {serieDoc + "-" + correlativoDoc} " +
+
+                                WriteToFile($"Servicio - (ObtenerDocumento): {documento} {serieDoc + "-" + correlativoDoc} " +
                                     $"creado exitosamente!");
                             }
                             else
@@ -230,7 +230,7 @@ namespace STR_SIFAC_Creation
                     }
                 }
             }
-        }       
+        }
         public async Task IntegrarEnviados()
         {
 
@@ -238,11 +238,11 @@ namespace STR_SIFAC_Creation
             {
 
                 oSq.DoQuery($"{(QueryPosition == 0 ? "EXEC" : "CALL")} STR_Docs_Aceptados_Sifac");
-                
+
 
 
                 int recor = oSq.RecordCount;
-                
+
 
                 if (oSq.RecordCount > 0)
                 {
@@ -351,7 +351,8 @@ namespace STR_SIFAC_Creation
                                     oHq.DoQuery($"{(QueryPosition == 0 ? "EXEC" : "CALL")} Str_Docs_Update_Sifac ERR,{body["NidDoc"]},{oSq.Fields.Item(3).Value}");
                                     WriteToFile($"Servicio (ActualizarDocumento): ¡Documento {body["FolDoc"]} fue actualizado a {body["StaDoc"]} exitosamente!");
                                 }
-                                else {
+                                else
+                                {
                                     oHq.DoQuery($"{(QueryPosition == 0 ? "EXEC" : "CALL")} Str_Docs_Update_Sifac INV,{body["NidDoc"]},{oSq.Fields.Item(3).Value}");
 
                                     WriteToFile($"Error - Servicio (ActualizarDocumento): {body["NidDoc"]} " + response.LogSer + " Se actualizará estado en sap a INV, actualizar manualmente para volver a enviar.");
@@ -362,7 +363,8 @@ namespace STR_SIFAC_Creation
                         {
                             WriteToFile("Error - Servicio (ActualizarDocumento): " + e.Message);
                         }
-                        finally {
+                        finally
+                        {
                             oSq.MoveNext();
                         }
 
@@ -525,6 +527,6 @@ namespace STR_SIFAC_Creation
             }
 
         }
-     
+
     }
 }

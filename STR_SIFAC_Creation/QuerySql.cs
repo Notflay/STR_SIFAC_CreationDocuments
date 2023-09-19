@@ -41,19 +41,32 @@ namespace STR_SIFAC_Creation
             }
         }
 
+        public static string GetCentCosto(string code)
+        {
+            try
+            {
+                string query = $"SELECT TOP 1 \"U_STR_CeOcrCode\" FROM \"@str_cent_costo\" WHERE \"U_STR_CeCardCode\" = {code}";
+                Global.oSq.DoQuery(query);
+                return Global.oSq.Fields.Item(0).Value;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("No se encontro centro de costo con el codigo de cliente");
+            }
+        }
         public static string GetDocumentId(string doc)
         {
             try
             {
                 if (doc.Length < 10)
                     return $"E{doc}";
-                return $"C{doc}";    
+                return $"C{doc}";
             }
             catch (Exception e)
             {
 
                 throw new Exception(e.Message.ToString());
-            }  
+            }
         }
 
 
@@ -183,7 +196,7 @@ namespace STR_SIFAC_Creation
                     default:
                         throw new Exception("No se encontro niguna serie, registrar en la tabla @BPP_NUMDOC");
                 }
-                  
+
             }
             catch (Exception e)
             {
@@ -217,7 +230,7 @@ namespace STR_SIFAC_Creation
             }
             catch (Exception e)
             {
-                throw new Exception($"No se encontro factura de referencia {serie + "-" +correlativo}");
+                throw new Exception($"No se encontro factura de referencia {serie + "-" + correlativo}");
             }
         }
         public static string AccountCode()
@@ -243,7 +256,7 @@ namespace STR_SIFAC_Creation
             try
             {
                 string table = tipo == "ZSNC" ? "ORIN" : "OINV";
-           
+
                 Global.oSq.DoQuery($"SELECT \"DocEntry\" FROM {table} WHERE \"U_STR_NidDoc\" = '{niDoc}'");
                 if (Global.oSq.RecordCount > 0)
                     return false;
