@@ -45,7 +45,7 @@ namespace STR_SIFAC_Creation
         {
             try
             {
-                string query = $"SELECT TOP 1 \"U_STR_CeOcrCode\" FROM \"@str_cent_costo\" WHERE \"U_STR_CeCardCode\" = {code}";
+                string query = $"SELECT TOP 1 \"U_STR_CeOcrCode\" FROM \"@str_cent_costo\" WHERE \"U_STR_CeCardCode\" = '{code}' ";
                 Global.oSq.DoQuery(query);
                 return Global.oSq.Fields.Item(0).Value;
             }
