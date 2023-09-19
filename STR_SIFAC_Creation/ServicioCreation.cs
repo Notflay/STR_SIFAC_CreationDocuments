@@ -166,10 +166,10 @@ namespace STR_SIFAC_Creation
                                 oDocumento.Lines.ItemDescription = de.TexDet;
 
                                 // DATOS DE LOCALIZACION INGRESO COMO CONSTANTE
-                                oDocumento.Lines.CostingCode = "0001";
+                                oDocumento.Lines.CostingCode = "0001"; // 0001 CONSTANTE
 
                                 //******** Los datos de abajo van a cambiar **************//
-                                oDocumento.Lines.CostingCode2 = "400000";
+                                oDocumento.Lines.CostingCode2 = "400000"; // 400000 CONSTANTE
                                 oDocumento.Lines.CostingCode4 = "CO00CM34";
                                 //*********************************************
                                 oDocumento.Lines.UserFields.Fields.Item("U_TCH_N_CONT").Value = "01";
