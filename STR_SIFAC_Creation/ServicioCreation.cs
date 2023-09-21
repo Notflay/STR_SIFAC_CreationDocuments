@@ -138,7 +138,7 @@ namespace STR_SIFAC_Creation
 
 
                             oDocumento.Comments = d.NroPedCliente;
-                            oDocumento.DocTotal = d.MonTotal;
+                            //oDocumento.DocTotal = d.MonTotal;
 
                             int linea = 0;
                             double total = 0;
@@ -155,7 +155,7 @@ namespace STR_SIFAC_Creation
                                     QuerySql.ValidarStock(matDet, Almacen, Convert.ToInt32(de.CanDet));
 
                                 oDocumento.Lines.SetCurrentLine(linea);
-
+                                //
                                 bool esServicio = oItem.InventoryItem == BoYesNoEnum.tNO && oItem.SalesItem == BoYesNoEnum.tYES /* &&  oItem.PurchaseItem == BoYesNoEnum.tNO && oItem.GLMethod == BoGLMethods.glm_ItemLevel*/;
 
 
@@ -177,6 +177,7 @@ namespace STR_SIFAC_Creation
 
                                 oDocumento.Lines.Quantity = Convert.ToDouble(de.CanDet); // Cantidad 
 
+                                /*
                                 oDocumento.Lines.UnitPrice = de.TaxCode == "EXO" ? de.ImpDet / Convert.ToDouble(de.CanDet)
                                     : (de.ImpDet / 1.18) / Convert.ToDouble(de.CanDet);   // Precio Unico cantidad 
                                 //oDocumento.Lines.UnitPrice = de.TaxCode == "EXO" ? de.ImpDet / Convert.ToDouble(de.CanDet)
@@ -189,6 +190,9 @@ namespace STR_SIFAC_Creation
                                 oDocumento.Lines.LineTotal = de.TaxCode == "EXO" ? de.ImpDet : de.ImpDet / 1.18; // Precio unitario del producto * cantidad 
                                 //oDocumento.Lines.LineTotal = de.TaxCode == "EXO" ? de.ImpDet : de.ImpDet; // Precio unitario del producto * cantidad
                                 // oDocumento.Lines.PriceAfterVAT = ''
+                                */
+                                //oDocumento.Lines.Price = Convert.ToDouble(de.CanDet) / 1.18;
+                                oDocumento.Lines.PriceAfterVAT = Convert.ToDouble(de.ImpDet);
 
                                 if (!esServicio)
                                     oDocumento.Lines.COGSAccountCode = QuerySql.CogsAcct(Almacen);
