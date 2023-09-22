@@ -51,10 +51,9 @@ namespace STR_SIFAC_Creation
         }
         public async Task IntegrarDocumentos()
         {
+            Connect();
             try
             {
-                Connect();
-
                 List<usp_sic_EnviarDocumento_Sap> data = NewDocuments();
 
                 if (data.Count > 0)
@@ -296,7 +295,7 @@ namespace STR_SIFAC_Creation
                                 }
                                 else
                                 {
-                                    oHq.DoQuery($"{(QueryPosition == 0 ? "EXEC" : "CALL")} Str_Docs_Update_Sifac INV,{body["NidDoc"]},{oSq.Fields.Item(3).Value}");
+                                    oHq.DoQuery($"{(QueryPosition == 0 ? "EXEC" : "CALL")} Str_Docs_Update_Sifac INV,{body["NidDoc"]},{oSq.Fields.Item(2).Value}");
 
                                     WriteToFile($"Error - Servicio (ActualizarDocumento): {body["NidDoc"]} " + response.LogSer + " Se actualizará estado en sap a INV, actualizar manualmente para volver a enviar.");
                                 }
@@ -489,6 +488,8 @@ namespace STR_SIFAC_Creation
 
                     if (data.FlaSer)
                         return data.DatSer;
+                    else if (data.DatSer.Count < 1)
+                        throw new Exception($"Servicio (ObtenerDocumento): No se encuentra documentos pendientes.");
                     throw new Exception($"Error - Servicio (ObtenerDocumento): {data.LogSer}");
                 }
             }
@@ -516,7 +517,7 @@ namespace STR_SIFAC_Creation
                     if (sboCompany.Connect() != 0)
                     {
                         WriteToFile("CONEXION-SAPConnector:" + sboCompany.GetLastErrorDescription());
-                        //throw new Exception(Global.sboCompany.GetLastErrorDescription());
+                        throw new Exception(Global.sboCompany.GetLastErrorDescription());
                     }
                     else
                     {
@@ -531,7 +532,7 @@ namespace STR_SIFAC_Creation
             }
             catch (Exception ex)
             {
-                WriteToFile("Conexion :" + ex.Message);
+                throw new Exception("Conexion :" + ex.Message);
             }
 
         }

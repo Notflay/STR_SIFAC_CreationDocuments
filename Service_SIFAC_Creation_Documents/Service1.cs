@@ -29,7 +29,7 @@ namespace Service_SIFAC_Creation_Documents
         {
             Global.WriteToFile("Servicio Iniciado... " + DateTime.Now);
             try
-            {
+            {                
                 stLapso.Start();
             }
             catch (Exception ex)
