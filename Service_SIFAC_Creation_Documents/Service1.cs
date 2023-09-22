@@ -65,7 +65,7 @@ namespace Service_SIFAC_Creation_Documents
             catch (Exception exec)
             {   
                 Global.WriteToFile("ERROR:" + exec.Message);
-                procesoTerminado = true;
+                procesoTerminado = false;
             }
 
         }

@@ -51,188 +51,195 @@ namespace STR_SIFAC_Creation
         }
         public async Task IntegrarDocumentos()
         {
-            Connect();
-
-            List<usp_sic_EnviarDocumento_Sap> data = NewDocuments();
-
-            if (data.Count > 0)
+            try
             {
-                foreach (usp_sic_EnviarDocumento_Sap d in data)
-                {
-                    try
-                    {
+                Connect();
 
-                        string tipoDoc = QuerySql.GetTipo(d.ClaDoc);
-                        string serieDoc = QuerySql.GetSerie(tipoDoc);
-                        string correlativoDoc = QuerySql.GetCorrelativo(serieDoc, tipoDoc);
-                        string documento = tipoDoc == "01" ? "Factura" : tipoDoc == "07" ? "Nota de Credito" : "Nota de debito";
-                        if (QuerySql.Validacion(d.ClaDoc, d.NidDoc))
+                List<usp_sic_EnviarDocumento_Sap> data = NewDocuments();
+
+                if (data.Count > 0)
+                {
+                    foreach (usp_sic_EnviarDocumento_Sap d in data)
+                    {
+                        try
                         {
 
-                            Documents oDocumento = tipoDoc == "01" ? (Documents)sboCompany.GetBusinessObject(BoObjectTypes.oInvoices) :
-                               tipoDoc == "07" ? (Documents)sboCompany.GetBusinessObject(BoObjectTypes.oCreditNotes) :
-                               (Documents)sboCompany.GetBusinessObject(BoObjectTypes.oInvoices);
-
-                            Items oItem = sboCompany.GetBusinessObject(BoObjectTypes.oItems);
-
-                            oDocumento.DocumentSubType = tipoDoc == "08" ? BoDocumentSubType.bod_DebitMemo : BoDocumentSubType.bod_None;
-
-                            oDocumento.UserFields.Fields.Item("U_BPP_MDTD").Value = tipoDoc;
-                            oDocumento.UserFields.Fields.Item("U_BPP_MDSD").Value = serieDoc;
-                            oDocumento.UserFields.Fields.Item("U_BPP_MDCD").Value = correlativoDoc;
-                            oDocumento.UserFields.Fields.Item("U_STR_NidDoc").Value = d.NidDoc;
-
-                            oDocumento.UserFields.Fields.Item("U_STR_Sifac_Estado").Value = d.StaDoc;
-
-                            oDocumento.DocType = BoDocumentTypes.dDocument_Items;
-
-                            oDocumento.DocObjectCode = tipoDoc == "01" ? BoObjectTypes.oInvoices
-                                : tipoDoc == "07" ? BoObjectTypes.oCreditNotes : BoObjectTypes.oInvoices;
-
-                            oDocumento.HandWritten = BoYesNoEnum.tNO;
-                            oDocumento.UserFields.Fields.Item("U_STR_FE_FormaPago").Value = string.IsNullOrEmpty(d.ForPago) ? "1" : d.ForPago == "1" ? "1" : "2";
-
-                            if (tipoDoc == "08" || tipoDoc == "07")
+                            string tipoDoc = QuerySql.GetTipo(d.ClaDoc);
+                            string serieDoc = QuerySql.GetSerie(tipoDoc);
+                            string correlativoDoc = QuerySql.GetCorrelativo(serieDoc, tipoDoc);
+                            string documento = tipoDoc == "01" ? "Factura" : tipoDoc == "07" ? "Nota de Credito" : "Nota de debito";
+                            if (QuerySql.Validacion(d.ClaDoc, d.NidDoc))
                             {
-                                string serieRef = d.FolioDocRef.Remove(4);
-                                string correlativoRef = d.FolioDocRef.Remove(0, 5);
-                                oDocumento.UserFields.Fields.Item("U_BPP_MDTO").Value = "01";
-                                oDocumento.UserFields.Fields.Item("U_BPP_MDSO").Value = serieRef; // serie 
-                                oDocumento.UserFields.Fields.Item("U_BPP_MDCO").Value = correlativoRef; // correlativo
 
-                                oDocumento.UserFields.Fields.Item("U_STR_MtvoCD").Value = d.MotDoc;
+                                Documents oDocumento = tipoDoc == "01" ? (Documents)sboCompany.GetBusinessObject(BoObjectTypes.oInvoices) :
+                                   tipoDoc == "07" ? (Documents)sboCompany.GetBusinessObject(BoObjectTypes.oCreditNotes) :
+                                   (Documents)sboCompany.GetBusinessObject(BoObjectTypes.oInvoices);
 
-                                oDocumento.UserFields.Fields.Item("U_BPP_SDocDate").Value = QuerySql.GetDocDateRef(serieRef, correlativoRef);
-                            };
+                                Items oItem = sboCompany.GetBusinessObject(BoObjectTypes.oItems);
 
-                            if (oDocumento.UserFields.Fields.Item("U_STR_FE_FormaPago").Value == "2" && tipoDoc == "01")
-                            {
-                                Document_Installments oIns;
-                                oDocumento.ApplyTaxOnFirstInstallment = BoYesNoEnum.tYES;
+                                oDocumento.DocumentSubType = tipoDoc == "08" ? BoDocumentSubType.bod_DebitMemo : BoDocumentSubType.bod_None;
 
-                                int lineaCu = 0;
-                                foreach (usp_sic_EnviarDocumentoCuota_Sap cuota_Sap in d.CuoDoc)
+                                oDocumento.UserFields.Fields.Item("U_BPP_MDTD").Value = tipoDoc;
+                                oDocumento.UserFields.Fields.Item("U_BPP_MDSD").Value = serieDoc;
+                                oDocumento.UserFields.Fields.Item("U_BPP_MDCD").Value = correlativoDoc;
+                                oDocumento.UserFields.Fields.Item("U_STR_NidDoc").Value = d.NidDoc;
+
+                                oDocumento.UserFields.Fields.Item("U_STR_Sifac_Estado").Value = d.StaDoc;
+
+                                oDocumento.DocType = BoDocumentTypes.dDocument_Items;
+
+                                oDocumento.DocObjectCode = tipoDoc == "01" ? BoObjectTypes.oInvoices
+                                    : tipoDoc == "07" ? BoObjectTypes.oCreditNotes : BoObjectTypes.oInvoices;
+
+                                oDocumento.HandWritten = BoYesNoEnum.tNO;
+                                oDocumento.UserFields.Fields.Item("U_STR_FE_FormaPago").Value = string.IsNullOrEmpty(d.ForPago) ? "1" : d.ForPago == "1" ? "1" : "2";
+
+                                if (tipoDoc == "08" || tipoDoc == "07")
                                 {
-                                    oIns = oDocumento.Installments;
-                                    oDocumento.Installments.SetCurrentLine(lineaCu);
-                                    oDocumento.Installments.DueDate = Convert.ToDateTime(cuota_Sap.FecPagoCuota);
-                                    //oDocumento.Installments.Percentage = Math.Round((cuota_Sap.ImpDet/d.MonTotal)*100,2);
-                                    oDocumento.Installments.Total = cuota_Sap.ImpDet;
+                                    string serieRef = d.FolioDocRef.Remove(4);
+                                    string correlativoRef = d.FolioDocRef.Remove(0, 5);
+                                    oDocumento.UserFields.Fields.Item("U_BPP_MDTO").Value = "01";
+                                    oDocumento.UserFields.Fields.Item("U_BPP_MDSO").Value = serieRef; // serie 
+                                    oDocumento.UserFields.Fields.Item("U_BPP_MDCO").Value = correlativoRef; // correlativo
 
-                                    if (lineaCu != 1)
-                                        oDocumento.Installments.Add();
-                                    lineaCu++;
+                                    oDocumento.UserFields.Fields.Item("U_STR_MtvoCD").Value = d.MotDoc;
+
+                                    oDocumento.UserFields.Fields.Item("U_BPP_SDocDate").Value = QuerySql.GetDocDateRef(serieRef, correlativoRef);
+                                };
+
+                                if (oDocumento.UserFields.Fields.Item("U_STR_FE_FormaPago").Value == "2" && tipoDoc == "01")
+                                {
+                                    Document_Installments oIns;
+                                    oDocumento.ApplyTaxOnFirstInstallment = BoYesNoEnum.tYES;
+
+                                    int lineaCu = 0;
+                                    foreach (usp_sic_EnviarDocumentoCuota_Sap cuota_Sap in d.CuoDoc)
+                                    {
+                                        oIns = oDocumento.Installments;
+                                        oDocumento.Installments.SetCurrentLine(lineaCu);
+                                        oDocumento.Installments.DueDate = Convert.ToDateTime(cuota_Sap.FecPagoCuota);
+                                        //oDocumento.Installments.Percentage = Math.Round((cuota_Sap.ImpDet/d.MonTotal)*100,2);
+                                        oDocumento.Installments.Total = cuota_Sap.ImpDet;
+
+                                        if (lineaCu != 1)
+                                            oDocumento.Installments.Add();
+                                        lineaCu++;
+                                    }
                                 }
-                            }
 
-                            oDocumento.CardCode = QuerySql.GetDocumentId(d.SolDoc);
-                            oDocumento.DocDate = Convert.ToDateTime(d.FecDocFac);
-                            oDocumento.TaxDate = Convert.ToDateTime(d.FecDocFac);
-                            oDocumento.DocDueDate = Convert.ToDateTime(d.FecDocFac).AddDays(Convert.ToInt32(d.ConPag.Remove(0, 1)));
-
-
-
-                            if (d.MonDoc != "PEN")
-                                oDocumento.DocCurrency = "USD";
+                                oDocumento.CardCode = QuerySql.GetDocumentId(d.SolDoc);
+                                oDocumento.DocDate = Convert.ToDateTime(d.FecDocFac);
+                                oDocumento.TaxDate = Convert.ToDateTime(d.FecDocFac);
+                                oDocumento.DocDueDate = Convert.ToDateTime(d.FecDocFac).AddDays(Convert.ToInt32(d.ConPag.Remove(0, 1)));
 
 
 
-                            oDocumento.Comments = d.NroPedCliente;
-                            //oDocumento.DocTotal = d.MonTotal;
-
-                            int linea = 0;
-                            double total = 0;
-                            foreach (usp_sic_EnviarDocumentoDetalle_Sap de in d.DetDoc)
-                            {
-                                // Cambiar estado si ya no esta en pruebas
-
-                                string matDet = Pruebas ? "VPGN00000001" : de.MatDet;
-
-                                QuerySql.ValidarExistencia(matDet);
-                                oItem.GetByKey(matDet);
-
-                                if (oItem.InventoryItem == BoYesNoEnum.tYES)
-                                    QuerySql.ValidarStock(matDet, Almacen, Convert.ToInt32(de.CanDet));
-
-                                oDocumento.Lines.SetCurrentLine(linea);
-                                //
-                                bool esServicio = oItem.InventoryItem == BoYesNoEnum.tNO && oItem.SalesItem == BoYesNoEnum.tYES /* &&  oItem.PurchaseItem == BoYesNoEnum.tNO && oItem.GLMethod == BoGLMethods.glm_ItemLevel*/;
+                                if (d.MonDoc != "PEN")
+                                    oDocumento.DocCurrency = "USD";
 
 
-                                if (!esServicio)
-                                    oDocumento.Lines.AccountCode = QuerySql.AccountCode();
 
-                                oDocumento.Lines.ItemCode = matDet;
-                                oDocumento.Lines.ItemDescription = de.TexDet;
+                                oDocumento.Comments = d.NroPedCliente;
+                                //oDocumento.DocTotal = d.MonTotal;
 
-                                // DATOS DE LOCALIZACION INGRESO COMO CONSTANTE
-                                oDocumento.Lines.CostingCode = "0001"; // 0001 CONSTANTE
+                                int linea = 0;
+                                double total = 0;
+                                foreach (usp_sic_EnviarDocumentoDetalle_Sap de in d.DetDoc)
+                                {
+                                    // Cambiar estado si ya no esta en pruebas
 
-                                //******** Los datos de abajo van a cambiar **************//
-                                oDocumento.Lines.CostingCode2 = "400000"; // 400000 CONSTANTE
-                                oDocumento.Lines.CostingCode4 = QuerySql.GetCentCosto(oDocumento.CardCode);
-                                //*********************************************
-                                oDocumento.Lines.UserFields.Fields.Item("U_TCH_N_CONT").Value = "01";
+                                    string matDet = Pruebas ? "VPGN00000001" : de.MatDet;
+
+                                    QuerySql.ValidarExistencia(matDet);
+                                    oItem.GetByKey(matDet);
+
+                                    if (oItem.InventoryItem == BoYesNoEnum.tYES)
+                                        QuerySql.ValidarStock(matDet, Almacen, Convert.ToInt32(de.CanDet));
+
+                                    oDocumento.Lines.SetCurrentLine(linea);
+                                    //
+                                    bool esServicio = oItem.InventoryItem == BoYesNoEnum.tNO && oItem.SalesItem == BoYesNoEnum.tYES /* &&  oItem.PurchaseItem == BoYesNoEnum.tNO && oItem.GLMethod == BoGLMethods.glm_ItemLevel*/;
 
 
-                                oDocumento.Lines.Quantity = Convert.ToDouble(de.CanDet); // Cantidad 
+                                    if (!esServicio)
+                                        oDocumento.Lines.AccountCode = QuerySql.AccountCode();
 
-                                /*
-                                oDocumento.Lines.UnitPrice = de.TaxCode == "EXO" ? de.ImpDet / Convert.ToDouble(de.CanDet)
-                                    : (de.ImpDet / 1.18) / Convert.ToDouble(de.CanDet);   // Precio Unico cantidad 
-                                //oDocumento.Lines.UnitPrice = de.TaxCode == "EXO" ? de.ImpDet / Convert.ToDouble(de.CanDet)
-                                //    : de.ImpDet  / Convert.ToDouble(de.CanDet);   // Precio Unico cantidad 
+                                    oDocumento.Lines.ItemCode = matDet;
+                                    oDocumento.Lines.ItemDescription = de.TexDet;
 
-                                oDocumento.Lines.Price = de.TaxCode == "EXO" ? de.ImpDet :
-                                    (de.ImpDet / 1.18) / Convert.ToDouble(de.CanDet);  // Precio Unitario del producto 
-                                //oDocumento.Lines.Price = de.ImpDet / Convert.ToDouble(de.CanDet);  // Precio Unitario del producto 
+                                    // DATOS DE LOCALIZACION INGRESO COMO CONSTANTE
+                                    oDocumento.Lines.CostingCode = "0001"; // 0001 CONSTANTE
 
-                                oDocumento.Lines.LineTotal = de.TaxCode == "EXO" ? de.ImpDet : de.ImpDet / 1.18; // Precio unitario del producto * cantidad 
-                                //oDocumento.Lines.LineTotal = de.TaxCode == "EXO" ? de.ImpDet : de.ImpDet; // Precio unitario del producto * cantidad
-                                // oDocumento.Lines.PriceAfterVAT = ''
-                                */
-                                //oDocumento.Lines.Price = Convert.ToDouble(de.CanDet) / 1.18;
-                                oDocumento.Lines.PriceAfterVAT = Convert.ToDouble(de.ImpDet) / Convert.ToDouble(de.CanDet);
+                                    //******** Los datos de abajo van a cambiar **************//
+                                    oDocumento.Lines.CostingCode2 = "400000"; // 400000 CONSTANTE
+                                    oDocumento.Lines.CostingCode4 = QuerySql.GetCentCosto(oDocumento.CardCode);
+                                    //*********************************************
+                                    oDocumento.Lines.UserFields.Fields.Item("U_TCH_N_CONT").Value = "01";
 
-                                if (!esServicio)
-                                    oDocumento.Lines.COGSAccountCode = QuerySql.CogsAcct(Almacen);
 
-                                oDocumento.Lines.TaxCode = de.TaxCode == "IGV" ? "IGV18" : de.TaxCode; // IGV - EXO
-                                oDocumento.Lines.WarehouseCode = Almacen;
+                                    oDocumento.Lines.Quantity = Convert.ToDouble(de.CanDet); // Cantidad 
 
-                                oDocumento.Lines.DiscountPercent = de.DiscPrnct == null ? 0.0 : de.DiscPrnct;
-                                oDocumento.Lines.UserFields.Fields.Item("U_BPP_OPER").Value = de.U_BPP_OPER;
-                                oDocumento.Lines.UserFields.Fields.Item("U_STR_FECodAfect").Value = Convert.ToString(de.U_STR_FECodAfect);
+                                    /*
+                                    oDocumento.Lines.UnitPrice = de.TaxCode == "EXO" ? de.ImpDet / Convert.ToDouble(de.CanDet)
+                                        : (de.ImpDet / 1.18) / Convert.ToDouble(de.CanDet);   // Precio Unico cantidad 
+                                    //oDocumento.Lines.UnitPrice = de.TaxCode == "EXO" ? de.ImpDet / Convert.ToDouble(de.CanDet)
+                                    //    : de.ImpDet  / Convert.ToDouble(de.CanDet);   // Precio Unico cantidad 
 
-                                total += de.ImpDet;
+                                    oDocumento.Lines.Price = de.TaxCode == "EXO" ? de.ImpDet :
+                                        (de.ImpDet / 1.18) / Convert.ToDouble(de.CanDet);  // Precio Unitario del producto 
+                                    //oDocumento.Lines.Price = de.ImpDet / Convert.ToDouble(de.CanDet);  // Precio Unitario del producto 
 
-                                oDocumento.Lines.Add();
-                                linea++;
-                            }
+                                    oDocumento.Lines.LineTotal = de.TaxCode == "EXO" ? de.ImpDet : de.ImpDet / 1.18; // Precio unitario del producto * cantidad 
+                                    //oDocumento.Lines.LineTotal = de.TaxCode == "EXO" ? de.ImpDet : de.ImpDet; // Precio unitario del producto * cantidad
+                                    // oDocumento.Lines.PriceAfterVAT = ''
+                                    */
+                                    //oDocumento.Lines.Price = Convert.ToDouble(de.CanDet) / 1.18;
+                                    oDocumento.Lines.PriceAfterVAT = Convert.ToDouble(de.ImpDet) / Convert.ToDouble(de.CanDet);
 
-                            string xml = oDocumento.GetAsXML();
+                                    if (!esServicio)
+                                        oDocumento.Lines.COGSAccountCode = QuerySql.CogsAcct(Almacen);
 
-                            if (oDocumento.Add() == 0)
-                            {
+                                    oDocumento.Lines.TaxCode = de.TaxCode == "IGV" ? "IGV18" : de.TaxCode; // IGV - EXO
+                                    oDocumento.Lines.WarehouseCode = Almacen;
 
-                                WriteToFile($"Servicio - (ObtenerDocumento): {documento} {serieDoc + "-" + correlativoDoc} " +
-                                    $"creado exitosamente!");
+                                    oDocumento.Lines.DiscountPercent = de.DiscPrnct == null ? 0.0 : de.DiscPrnct;
+                                    oDocumento.Lines.UserFields.Fields.Item("U_BPP_OPER").Value = de.U_BPP_OPER;
+                                    oDocumento.Lines.UserFields.Fields.Item("U_STR_FECodAfect").Value = Convert.ToString(de.U_STR_FECodAfect);
+
+                                    total += de.ImpDet;
+
+                                    oDocumento.Lines.Add();
+                                    linea++;
+                                }
+
+                                string xml = oDocumento.GetAsXML();
+
+                                if (oDocumento.Add() == 0)
+                                {
+
+                                    WriteToFile($"Servicio - (ObtenerDocumento): {documento} {serieDoc + "-" + correlativoDoc} " +
+                                        $"creado exitosamente!");
+                                }
+                                else
+                                {
+                                    WriteToFile($"Error - Servicio (ObtenerDocumento): {documento} {sboCompany.GetLastErrorDescription()}");
+                                }
                             }
                             else
                             {
-                                WriteToFile($"Error - Servicio (ObtenerDocumento): {documento} {sboCompany.GetLastErrorDescription()}");
+                                WriteToFile($"Error - Servicio (ObtenerDocumento): {documento} ya fue creado anteriormente {d.NidDoc}. Enviarlo al proveedor");
                             }
                         }
-                        else
+                        catch (Exception e)
                         {
-                            WriteToFile($"Error - Servicio (ObtenerDocumento): {documento} ya fue creado anteriormente {d.NidDoc}. Enviarlo al proveedor");
+                            WriteToFile($"Error - Servicio (ObtenerDocumento): {e.Message}");
                         }
                     }
-                    catch (Exception e)
-                    {
-                        WriteToFile($"Error - Servicio (ObtenerDocumento): {e.Message}");
-                    }
                 }
+            }
+            catch (Exception e)
+            {
+                WriteToFile(e.Message.ToString());
             }
         }
         public async Task IntegrarEnviados()
@@ -482,15 +489,12 @@ namespace STR_SIFAC_Creation
 
                     if (data.FlaSer)
                         return data.DatSer;
-                    else
-                        WriteToFile($"Error - Servicio (ObtenerDocumento): {data.LogSer}");
-                    throw new Exception();
+                    throw new Exception($"Error - Servicio (ObtenerDocumento): {data.LogSer}");
                 }
             }
             catch (Exception e)
             {
-                WriteToFile(e.Message.ToString());
-                throw new Exception();
+                throw new Exception(e.Message.ToString());
             }
 
         }
