@@ -192,7 +192,7 @@ namespace STR_SIFAC_Creation
                                 // oDocumento.Lines.PriceAfterVAT = ''
                                 */
                                 //oDocumento.Lines.Price = Convert.ToDouble(de.CanDet) / 1.18;
-                                oDocumento.Lines.PriceAfterVAT = Convert.ToDouble(de.ImpDet);
+                                oDocumento.Lines.PriceAfterVAT = Convert.ToDouble(de.ImpDet) / Convert.ToDouble(de.CanDet);
 
                                 if (!esServicio)
                                     oDocumento.Lines.COGSAccountCode = QuerySql.CogsAcct(Almacen);
@@ -512,7 +512,7 @@ namespace STR_SIFAC_Creation
                     if (sboCompany.Connect() != 0)
                     {
                         WriteToFile("CONEXION-SAPConnector:" + sboCompany.GetLastErrorDescription());
-                        throw new Exception(Global.sboCompany.GetLastErrorDescription());
+                        //throw new Exception(Global.sboCompany.GetLastErrorDescription());
                     }
                     else
                     {

@@ -28,32 +28,32 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.serviceProcessInstaller1 = new System.ServiceProcess.ServiceProcessInstaller();
-            this.serviceInstaller1 = new System.ServiceProcess.ServiceInstaller();
+            this.STR_SIFAC_INTEGRACION = new System.ServiceProcess.ServiceProcessInstaller();
+            this.serviceinstaller = new System.ServiceProcess.ServiceInstaller();
             // 
-            // serviceProcessInstaller1
+            // STR_SIFAC_INTEGRACION
             // 
-            this.serviceProcessInstaller1.Account = System.ServiceProcess.ServiceAccount.LocalService;
-            this.serviceProcessInstaller1.Password = null;
-            this.serviceProcessInstaller1.Username = null;
+            this.STR_SIFAC_INTEGRACION.Account = System.ServiceProcess.ServiceAccount.LocalService;
+            this.STR_SIFAC_INTEGRACION.Password = null;
+            this.STR_SIFAC_INTEGRACION.Username = null;
             // 
-            // serviceInstaller1
+            // serviceinstaller
             // 
-            this.serviceInstaller1.Description = "Integración de documentos de Sifac con Sap";
-            this.serviceInstaller1.ServiceName = "Integración de Sifac_Sap";
-            this.serviceInstaller1.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
+            this.serviceinstaller.Description = "Servicio Integrador entre SAP y SIFAC";
+            this.serviceinstaller.ServiceName = "Integracion Sap-Sifac";
+            this.serviceinstaller.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
             // 
             // ProjectInstaller
             // 
             this.Installers.AddRange(new System.Configuration.Install.Installer[] {
-            this.serviceProcessInstaller1,
-            this.serviceInstaller1});
+            this.serviceinstaller,
+            this.STR_SIFAC_INTEGRACION});
 
         }
 
         #endregion
 
-        private System.ServiceProcess.ServiceProcessInstaller serviceProcessInstaller1;
-        private System.ServiceProcess.ServiceInstaller serviceInstaller1;
+        private System.ServiceProcess.ServiceProcessInstaller STR_SIFAC_INTEGRACION;
+        private System.ServiceProcess.ServiceInstaller serviceinstaller;
     }
 }
